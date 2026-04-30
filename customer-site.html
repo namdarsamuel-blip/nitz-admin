@@ -3,341 +3,323 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Watch Room</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<title>Nitzani Tradings — Fine Timepieces</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-:root {
-  --ink:    #141210;
-  --cream:  #f4efe6;
-  --warm:   #faf7f1;
-  --gold:   #b5864a;
-  --gold2:  #d4a862;
-  --muted:  #9a8e7e;
-  --border: #e2d9cc;
-  --card:   #fdfaf5;
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;
+  --white:#ffffff;
+  --off:#f6f5f2;
+  --mid:#767676;
+  --light:#d4d2cd;
+  --border:#e5e3de;
+  --accent:#b8860b;
 }
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--black);font-family:'Outfit',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh}
 
-body { background:var(--cream); color:var(--ink); font-family:'Jost',sans-serif; font-weight:300; }
+/* ── ANN BAR ── */
+.ann{background:var(--black);color:var(--white);text-align:center;padding:9px 16px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400}
 
 /* ── HEADER ── */
-header {
-  position:sticky; top:0; z-index:200;
-  background:var(--ink);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 2.5rem; height:64px;
-  border-bottom:1px solid #2a2520;
-}
-.logo { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:300; color:var(--cream); letter-spacing:.1em; }
-.logo i { color:var(--gold2); font-style:italic; }
-.header-right { display:flex; align-items:center; gap:1.5rem; }
-.header-tag { font-size:.65rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
-.enquire-btn {
-  font-family:'Jost',sans-serif; font-size:.65rem; font-weight:400;
-  letter-spacing:.2em; text-transform:uppercase;
-  color:var(--gold2); border:1px solid var(--gold);
-  padding:.4rem 1.1rem; text-decoration:none;
-  transition:.2s;
-}
-.enquire-btn:hover { background:var(--gold); color:var(--ink); }
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:300;box-shadow:0 1px 0 var(--border)}
+.hinner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 28px;height:68px;max-width:1440px;margin:0 auto}
+.hnav{display:flex;gap:28px;align-items:center}
+.hnav a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:var(--mid);text-decoration:none;transition:color .15s}
+.hnav a:hover{color:var(--black)}
+.brand{font-size:18px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--black);text-decoration:none;white-space:nowrap;text-align:center;display:block}
+.hright{display:flex;justify-content:flex-end;align-items:center}
+.cta-btn{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;background:var(--black);color:var(--white);padding:9px 22px;text-decoration:none;transition:background .2s;border:none;cursor:pointer;font-family:'Outfit',sans-serif}
+.cta-btn:hover{background:#2a2a2a}
+@media(max-width:640px){.hnav{display:none}.brand{font-size:13px;letter-spacing:.2em}.hinner{grid-template-columns:1fr auto 1fr;padding:0 16px}}
 
 /* ── HERO ── */
-.hero {
-  background:var(--ink);
-  padding:5rem 2.5rem 4rem;
-  text-align:center;
-  position:relative; overflow:hidden;
-}
-.hero::after {
-  content:'';
-  position:absolute; inset:0;
-  background:radial-gradient(ellipse 70% 80% at 50% 100%, #2a1f0e55, transparent);
-  pointer-events:none;
-}
-.hero-kicker { font-size:.6rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.25rem; }
-.hero h1 {
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2.4rem,6vw,5rem);
-  font-weight:300; line-height:1.05;
-  color:var(--cream); margin-bottom:1.25rem;
-}
-.hero h1 em { font-style:italic; color:var(--gold2); }
-.hero p { font-size:.85rem; color:var(--muted); max-width:400px; margin:0 auto; line-height:1.9; }
+.hero{background:var(--off);padding:72px 28px 64px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-eye{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--mid);margin-bottom:18px;font-weight:400}
+.hero-h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(40px,7vw,92px);font-weight:400;line-height:.95;letter-spacing:-.02em;margin-bottom:18px}
+.hero-h1 em{font-style:italic;color:var(--mid)}
+.hero-p{font-size:14px;color:var(--mid);max-width:400px;margin:0 auto 32px;line-height:1.75;font-weight:300;letter-spacing:.02em}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-dark{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:13px 28px;background:var(--black);color:var(--white);text-decoration:none;transition:background .2s}
+.btn-dark:hover{background:#2a2a2a}
+.btn-out{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:12px 28px;border:1px solid var(--black);color:var(--black);text-decoration:none;transition:.2s}
+.btn-out:hover{background:var(--black);color:var(--white)}
 
 /* ── FILTER BAR ── */
-.filter-bar {
-  position:sticky; top:64px; z-index:100;
-  background:var(--cream);
-  border-bottom:1px solid var(--border);
-  padding:1rem 2.5rem;
-  display:flex; align-items:center; gap:.5rem; flex-wrap:wrap;
-}
-.filter-label { font-size:.6rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin-right:.25rem; }
-.fbtn {
-  font-family:'Jost',sans-serif; font-size:.65rem; font-weight:400;
-  letter-spacing:.14em; text-transform:uppercase;
-  padding:.3rem .85rem; border:1px solid var(--border);
-  background:transparent; color:var(--muted); cursor:pointer; transition:.15s;
-}
-.fbtn.on, .fbtn:hover { border-color:var(--gold); color:var(--gold); background:rgba(181,134,74,.06); }
-.search-wrap { margin-left:auto; position:relative; }
-.search-wrap input {
-  font-family:'Jost',sans-serif; font-size:.78rem; font-weight:300;
-  width:210px; padding:.38rem .9rem;
-  border:1px solid var(--border); background:white; color:var(--ink);
-  outline:none; transition:border-color .15s;
-}
-.search-wrap input:focus { border-color:var(--gold); }
-.search-wrap input::placeholder { color:var(--muted); }
+.fbar-wrap{border-bottom:1px solid var(--border);position:sticky;top:68px;z-index:200;background:var(--white)}
+.fbar{max-width:1440px;margin:0 auto;padding:0 28px;display:flex;align-items:center;height:48px;gap:0}
+.fcount{font-size:11px;letter-spacing:.1em;color:var(--mid);margin-right:auto;white-space:nowrap;font-weight:400}
+.ftabs{display:flex;height:100%}
+.ftab{font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;padding:0 16px;border:none;background:transparent;color:var(--mid);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;font-family:'Outfit',sans-serif;height:100%;display:flex;align-items:center}
+.ftab:hover{color:var(--black)}
+.ftab.on{color:var(--black);border-bottom-color:var(--black)}
+.fsep{width:1px;background:var(--border);height:24px;margin:0 8px}
+.fsearch{display:flex;align-items:center;gap:8px;padding:0 0 0 16px;border-left:1px solid var(--border);height:100%}
+.fsearch svg{width:13px;height:13px;color:var(--mid);flex-shrink:0}
+.fsearch input{font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;border:none;outline:none;color:var(--black);width:160px;background:transparent}
+.fsearch input::placeholder{color:var(--light)}
+@media(max-width:500px){.fsearch{display:none}}
 
-/* ── GRID ── */
-.main { max-width:1400px; margin:0 auto; padding:2.5rem 2rem 6rem; }
-.grid-meta { font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:2rem; }
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
-  gap:1px; background:var(--border);
-}
+/* ── SHOP GRID ── */
+.shop{max-width:1440px;margin:0 auto;padding:0 28px 80px}
+.grid-meta{padding:20px 0 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(4,1fr)}}
 
 /* ── CARD ── */
-.card { background:var(--card); cursor:pointer; transition:transform .25s,box-shadow .25s; position:relative; }
-.card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(0,0,0,.12); z-index:1; }
+.card{background:var(--white);cursor:pointer;position:relative;overflow:hidden}
+.card:hover .cimg img{transform:scale(1.05)}
+.card:hover .cview{opacity:1}
+.cimg{aspect-ratio:.82;overflow:hidden;background:var(--off);position:relative}
+.cimg img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94);display:block}
+.cimg-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--border);font-size:11px;letter-spacing:.3em;text-transform:uppercase}
+.cbadge{position:absolute;top:12px;left:12px;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px}
+.cbadge-sold{background:var(--black);color:var(--white)}
+.cview{position:absolute;bottom:12px;left:12px;right:12px;background:var(--white);text-align:center;padding:9px;font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;opacity:0;transition:opacity .2s}
+.cbody{padding:14px 16px 20px}
+.cbrand{font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
+.cname{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:400;line-height:1.2;margin-bottom:5px}
+.ccond{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:10px}
+.cprice{font-size:15px;font-weight:500;letter-spacing:.01em}
 
-.card-img { aspect-ratio:1; overflow:hidden; background:#ece6da; position:relative; }
-.card-img img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
-.card:hover .card-img img { transform:scale(1.05); }
-.card-img-ph {
-  width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.5rem;
-  color:var(--border);
-}
-.sold-tag {
-  position:absolute; top:.9rem; left:.9rem;
-  background:var(--ink); color:var(--cream);
-  font-size:.55rem; letter-spacing:.2em; text-transform:uppercase;
-  padding:.25rem .65rem;
-}
-
-.card-body { padding:1.2rem 1.4rem 1.5rem; border-top:1px solid var(--border); }
-.card-brand { font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:.3rem; }
-.card-name { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:400; line-height:1.15; margin-bottom:.4rem; }
-.card-cond { font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:1rem; }
-.card-price { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:600; }
+/* ── STATE ── */
+.state{padding:80px 20px;text-align:center;color:var(--mid)}
+.state h2{font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:400;color:var(--black);margin-bottom:8px}
+.state p{font-size:14px;line-height:1.75}
+.spin{width:22px;height:22px;border:1.5px solid var(--border);border-top-color:var(--black);border-radius:50%;animation:sp .6s linear infinite;margin:0 auto 18px}
+@keyframes sp{to{transform:rotate(360deg)}}
 
 /* ── MODAL ── */
-.overlay {
-  display:none; position:fixed; inset:0; z-index:500;
-  background:rgba(10,8,6,.88); backdrop-filter:blur(6px);
-  align-items:center; justify-content:center; padding:1.5rem;
-}
-.overlay.open { display:flex; }
-.modal {
-  background:var(--cream); max-width:900px; width:100%;
-  max-height:90vh; overflow-y:auto;
-  display:grid; grid-template-columns:1fr 1fr;
-  position:relative; animation:up .25s ease;
-}
-@media(max-width:600px){ .modal { grid-template-columns:1fr; } }
-@keyframes up { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+.overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--white);max-width:980px;width:100%;max-height:92vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:mup .25s ease}
+@media(max-width:600px){.modal{grid-template-columns:1fr}}
+@keyframes mup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.mclose{position:absolute;top:16px;right:16px;z-index:10;width:32px;height:32px;background:var(--white);border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.15s;color:var(--mid)}
+.mclose:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+.mimg{overflow:hidden;background:var(--off);position:relative}
+.mimg img{width:100%;height:100%;object-fit:cover;display:block}
+.mimg-ph{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--border)}
+.mbody{padding:40px 36px;display:flex;flex-direction:column;overflow-y:auto}
+@media(max-width:600px){.mbody{padding:24px 20px}}
+.mbadge{display:inline-block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border);color:var(--mid);margin-bottom:20px;align-self:flex-start}
+.mbrand{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+.mname{font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,3.5vw,34px);font-weight:400;line-height:1.1;margin-bottom:6px}
+.mmeta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.mdesc{font-size:13px;line-height:1.85;color:#444;flex:1;margin-bottom:6px}
+.mref{font-size:11px;color:var(--mid);margin-bottom:20px}
+.mprice{font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:400;letter-spacing:-.01em;margin-bottom:22px}
+.mcta{display:block;padding:14px;background:var(--black);color:var(--white);text-align:center;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .2s}
+.mcta:hover{background:#2a2a2a}
+.mcta.sold{background:var(--mid);cursor:not-allowed}
 
-.modal-close {
-  position:absolute; top:.9rem; right:.9rem;
-  background:var(--ink); border:none; color:var(--cream);
-  width:32px; height:32px; cursor:pointer; font-size:1rem;
-  display:flex; align-items:center; justify-content:center; z-index:10;
-  transition:background .15s;
-}
-.modal-close:hover { background:var(--gold); }
-.modal-img { aspect-ratio:1; overflow:hidden; background:#ece6da; }
-.modal-img img { width:100%; height:100%; object-fit:cover; }
-.modal-body { padding:2.5rem 2rem; display:flex; flex-direction:column; }
-.modal-brand { font-size:.58rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:.4rem; }
-.modal-name { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; line-height:1.1; margin-bottom:.35rem; }
-.modal-meta { font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-bottom:1.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
-.modal-desc { font-size:.84rem; line-height:1.95; color:#4a3f30; flex:1; margin-bottom:2rem; }
-.modal-ref { font-size:.72rem; color:var(--muted); margin-bottom:.4rem; }
-.modal-price { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; margin-bottom:1.5rem; }
-.modal-cta {
-  display:block; background:var(--ink); color:var(--cream);
-  text-align:center; text-decoration:none; padding:1rem;
-  font-size:.65rem; letter-spacing:.25em; text-transform:uppercase;
-  border:none; cursor:pointer; font-family:'Jost',sans-serif;
-  transition:background .2s;
-}
-.modal-cta:hover { background:var(--gold); }
-.modal-cta.sold { background:var(--muted); cursor:not-allowed; }
-
-/* ── EMPTY / LOADING ── */
-.state { text-align:center; padding:7rem 2rem; color:var(--muted); }
-.state h2 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300; color:var(--ink); margin-bottom:.6rem; }
-.state p { font-size:.8rem; line-height:1.8; }
-.spin { width:30px; height:30px; border:2px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin .65s linear infinite; margin:0 auto 1.5rem; }
-@keyframes spin { to{transform:rotate(360deg)} }
+/* ── ABOUT STRIP ── */
+.about{background:var(--black);color:var(--white);padding:64px 28px;text-align:center;border-top:1px solid #1a1a1a}
+.about h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,52px);font-weight:400;margin-bottom:12px;line-height:1.1}
+.about h2 em{font-style:italic;color:#888}
+.about p{font-size:13px;color:#777;max-width:420px;margin:0 auto 26px;line-height:1.85;letter-spacing:.02em}
+.about a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--white);border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;text-decoration:none;transition:.15s}
+.about a:hover{border-bottom-color:var(--white)}
 
 /* ── FOOTER ── */
-footer {
-  background:var(--ink); padding:3.5rem 2.5rem; text-align:center;
-  color:var(--muted); font-size:.72rem; letter-spacing:.1em; line-height:2;
+footer{background:var(--off);border-top:1px solid var(--border);padding:40px 28px}
+.footer-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.fbrand{font-size:13px;font-weight:500;letter-spacing:.28em;text-transform:uppercase}
+.fcopy{font-size:11px;letter-spacing:.06em;color:var(--mid)}
+.fcopy a{color:var(--black);text-decoration:none}
+.fcopy a:hover{text-decoration:underline}
+
+/* ── MOBILE ── */
+@media(max-width:480px){
+  .shop{padding:0 16px 60px}
+  .fbar{padding:0 16px}
+  .hero{padding:52px 20px 48px}
 }
-footer .f-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--cream); display:block; margin-bottom:.5rem; letter-spacing:.08em; }
-footer a { color:var(--gold); text-decoration:none; }
-footer a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
 
+<div class="ann">Fine &amp; Pre-Owned Timepieces — Contact Us for Availability</div>
+
 <header>
-  <div class="logo">The Watch <i>Room</i></div>
-  <div class="header-right">
-    <span class="header-tag">Fine & Vintage Timepieces</span>
-    <a href="#footer" class="enquire-btn">Enquire</a>
+  <div class="hinner">
+    <nav class="hnav">
+      <a href="#shop">Collection</a>
+      <a href="#about">About</a>
+    </nav>
+    <a class="brand" href="#">NITZANI TRADINGS</a>
+    <div class="hright">
+      <a class="cta-btn" id="headerEnquire" href="#">Enquire</a>
+    </div>
   </div>
 </header>
 
-<div class="hero">
-  <p class="hero-kicker">Personally Curated Collection</p>
-  <h1>Every Watch<br>Has a <em>Story</em></h1>
-  <p>Browse a hand-picked selection of fine and vintage timepieces. See something you love — reach out to discuss.</p>
-</div>
+<section class="hero" id="top">
+  <p class="hero-eye">New York · Curated Timepieces</p>
+  <h1 class="hero-h1">Shop All<br><em>Watches</em></h1>
+  <p class="hero-p">A hand-picked selection of fine and pre-owned watches. Every piece verified, every detail documented.</p>
+  <div class="hero-actions">
+    <a class="btn-dark" href="#shop">View Collection</a>
+    <a class="btn-out"  id="heroEnquire" href="#">Get in Touch</a>
+  </div>
+</section>
 
-<div class="filter-bar">
-  <span class="filter-label">Show</span>
-  <button class="fbtn on" data-f="all">All</button>
-  <button class="fbtn" data-f="available">Available</button>
-  <button class="fbtn" data-f="sold">Sold</button>
-  <div class="search-wrap">
-    <input type="text" id="search" placeholder="Search brand or name…">
+<div class="fbar-wrap" id="shop">
+  <div class="fbar">
+    <span class="fcount" id="fcount"></span>
+    <div class="ftabs">
+      <button class="ftab on" data-f="all">All</button>
+      <button class="ftab"    data-f="available">Available</button>
+      <button class="ftab"    data-f="sold">Sold</button>
+    </div>
+    <div class="fsearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="search" type="text" placeholder="Brand or model…">
+    </div>
   </div>
 </div>
 
-<div class="main">
-  <div class="grid-meta" id="meta"></div>
-  <div id="grid"></div>
+<div class="shop">
+  <div id="gridWrap"></div>
 </div>
 
+<section class="about" id="about">
+  <h2>Every Watch<br>Has a <em>Story</em></h2>
+  <p>Each piece in our collection is personally sourced and verified. We deal in watches we believe in — nothing more, nothing less.</p>
+  <a id="aboutEnquire" href="#">Start a Conversation</a>
+</section>
+
 <footer id="footer">
-  <span class="f-name">The Watch Room</span>
-  Interested in a piece? <a id="footerContact" href="#">Get in touch</a> to discuss availability &amp; purchase.
+  <div class="footer-in">
+    <div class="fbrand">Nitzani Tradings</div>
+    <div class="fcopy">Interested? <a id="footerEmail" href="#">Contact us</a></div>
+  </div>
 </footer>
 
+<!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <button class="modal-close" id="mClose">✕</button>
-    <div class="modal-img"><img id="mImg" src="" alt=""></div>
-    <div class="modal-body">
-      <div class="modal-brand" id="mBrand"></div>
-      <div class="modal-name"  id="mName"></div>
-      <div class="modal-meta"  id="mMeta"></div>
-      <div class="modal-desc"  id="mDesc"></div>
-      <div class="modal-ref"   id="mRef"></div>
-      <div class="modal-price" id="mPrice"></div>
-      <a   class="modal-cta"   id="mCTA"  href="#">Enquire About This Watch</a>
+    <button class="mclose" id="mClose">✕</button>
+    <div class="mimg">
+      <div class="mimg-ph" id="mPh">NITZANI</div>
+      <img id="mImg" src="" alt="" style="display:none">
+    </div>
+    <div class="mbody">
+      <span class="mbadge" id="mBadge"></span>
+      <div class="mbrand" id="mBrand"></div>
+      <div class="mname"  id="mName"></div>
+      <div class="mmeta"  id="mMeta"></div>
+      <div class="mdesc"  id="mDesc"></div>
+      <div class="mref"   id="mRef"></div>
+      <div class="mprice" id="mPrice"></div>
+      <a class="mcta" id="mCTA" href="#">Enquire About This Watch</a>
     </div>
   </div>
 </div>
 
 <script>
-// ── CONFIGURE — paste your Apps Script Web App URL here ──
-const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycby3vhoNCQnbZkgp4ORRvl5fEtHIuvMOkNg-6YPPSYxqp3LnlBXtnkEH1tgmdsHr7KJYrQ/exec';
+const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycby3vhoNCQnbZkgp4ORRvl5fEtHIuvMOkNg-6YPPSYxqp3LnlBXtnkEH1tgmdsHr7KJYrQ/exec';
 const CONTACT_EMAIL = 'PASTE_YOUR_EMAIL_HERE';
-// ─────────────────────────────────────────────────────────
 
-let allWatches = [];
-let filter = 'all';
-let query  = '';
+// Wire contact links
+['headerEnquire','heroEnquire','aboutEnquire','footerEmail'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.href = 'mailto:' + CONTACT_EMAIL;
+});
 
-// Set contact link
-document.getElementById('footerContact').href = 'mailto:' + CONTACT_EMAIL;
+let all = [], filter = 'all', query = '';
 
 async function load() {
-  document.getElementById('grid').innerHTML = '<div class="state"><div class="spin"></div><p>Loading collection…</p></div>';
+  document.getElementById('gridWrap').innerHTML = '<div class="state"><div class="spin"></div><p>Loading collection…</p></div>';
   try {
-    const res  = await fetch(SCRIPT_URL + '?action=getInventory');
-    const json = await res.json();
-    allWatches = json.watches || [];
+    const j = await (await fetch(SCRIPT_URL + '?action=getInventory')).json();
+    all = j.watches || [];
     render();
   } catch(e) {
-    document.getElementById('grid').innerHTML = '<div class="state"><h2>Couldn\'t load collection</h2><p>Please try again shortly.</p></div>';
+    document.getElementById('gridWrap').innerHTML = '<div class="state"><h2>Unavailable</h2><p>Please refresh and try again.</p></div>';
   }
 }
 
 function render() {
   const q = query.toLowerCase();
-  const list = allWatches.filter(w => {
+  const list = all.filter(w => {
     const sold = String(w.Available).toLowerCase() === 'sold';
-    if (filter === 'available' && sold)   return false;
-    if (filter === 'sold'      && !sold)  return false;
+    if (filter === 'available' &&  sold) return false;
+    if (filter === 'sold'      && !sold) return false;
     if (q && !(w.Name||'').toLowerCase().includes(q) && !(w.Brand||'').toLowerCase().includes(q)) return false;
     return true;
   });
-
-  document.getElementById('meta').textContent = list.length + ' piece' + (list.length !== 1 ? 's' : '');
+  const avail = all.filter(w => String(w.Available).toLowerCase() !== 'sold').length;
+  document.getElementById('fcount').textContent = list.length + (list.length===1?' Item':' Items') + ' · ' + avail + ' Available';
+  window._L = list;
 
   if (!list.length) {
-    document.getElementById('grid').innerHTML = '<div class="state"><h2>No watches found</h2><p>Try a different filter or search term.</p></div>';
+    document.getElementById('gridWrap').innerHTML = '<div class="state"><h2>No Results</h2><p>Try a different filter or search term.</p></div>';
     return;
   }
 
-  window._list = list;
-  document.getElementById('grid').innerHTML = '<div class="grid">' + list.map((w,i) => {
-    const sold = String(w.Available).toLowerCase() === 'sold';
-    return `<div class="card" onclick="openModal(${i})">
-      <div class="card-img">
-        ${w.Image ? `<img src="${w.Image}" alt="${w.Name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-ph><svg width=36 height=36 viewBox=0 0 24 24 fill=none stroke=currentColor stroke-width=1><circle cx=12 cy=12 r=10/><circle cx=12 cy=12 r=4/></svg></div>'">` : '<div class="card-img-ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/></svg></div>'}
-        ${sold ? '<div class="sold-tag">Sold</div>' : ''}
-      </div>
-      <div class="card-body">
-        <div class="card-brand">${w.Brand||'—'}</div>
-        <div class="card-name">${w.Name||'Untitled'}</div>
-        <div class="card-cond">${w.Condition||''}${w.Year ? ' · ' + w.Year : ''}</div>
-        <div class="card-price">${w.Price||'POA'}</div>
-      </div>
-    </div>`;
-  }).join('') + '</div>';
+  document.getElementById('gridWrap').innerHTML =
+    '<div class="grid">' + list.map((w,i) => {
+      const sold = String(w.Available).toLowerCase() === 'sold';
+      return `<div class="card" onclick="openM(${i})">
+        <div class="cimg">
+          ${w.Image
+            ? `<img src="${w.Image}" alt="${w.Name||''}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=cimg-ph>NITZANI</div>'">`
+            : '<div class="cimg-ph">NITZANI</div>'}
+          ${sold ? '<span class="cbadge cbadge-sold">Sold</span>' : ''}
+          <div class="cview">Quick View</div>
+        </div>
+        <div class="cbody">
+          <div class="cbrand">${w.Brand||'—'}</div>
+          <div class="cname">${w.Name||'Untitled'}</div>
+          <div class="ccond">${[w.Condition,w.Year].filter(Boolean).join(' · ')||''}</div>
+          <div class="cprice">${w.Price||'POA'}</div>
+        </div>
+      </div>`;
+    }).join('') + '</div>';
 }
 
-function openModal(i) {
-  const w = window._list[i];
+function openM(i) {
+  const w = window._L[i];
   const sold = String(w.Available).toLowerCase() === 'sold';
-  document.getElementById('mBrand').textContent = w.Brand || '';
-  document.getElementById('mName').textContent  = w.Name  || 'Untitled';
-  document.getElementById('mMeta').textContent  = [w.Condition, w.Year, sold ? 'Sold' : 'Available'].filter(Boolean).join(' · ');
-  document.getElementById('mDesc').textContent  = w.Description || 'No description provided.';
-  document.getElementById('mRef').textContent   = w.Reference ? 'Ref. ' + w.Reference : '';
-  document.getElementById('mPrice').textContent = w.Price || 'POA';
-
+  document.getElementById('mBadge').textContent  = sold ? 'Sold' : 'Available';
+  document.getElementById('mBrand').textContent  = w.Brand || '';
+  document.getElementById('mName').textContent   = w.Name  || 'Untitled';
+  document.getElementById('mMeta').textContent   = [w.Condition, w.Year].filter(Boolean).join(' · ');
+  document.getElementById('mDesc').textContent   = w.Description || 'Contact us for more details about this piece.';
+  document.getElementById('mRef').textContent    = w.Reference ? 'Ref. ' + w.Reference : '';
+  document.getElementById('mPrice').textContent  = w.Price || 'POA';
   const img = document.getElementById('mImg');
-  img.src = w.Image || ''; img.style.display = w.Image ? 'block' : 'none';
-
+  const ph  = document.getElementById('mPh');
+  if (w.Image) { img.src = w.Image; img.style.display = 'block'; ph.style.display = 'none'; }
+  else         { img.style.display = 'none'; ph.style.display = 'flex'; }
   const cta = document.getElementById('mCTA');
   if (sold) {
     cta.textContent = 'This piece has been sold';
-    cta.className = 'modal-cta sold';
-    cta.href = '#'; cta.onclick = e => e.preventDefault();
+    cta.className = 'mcta sold'; cta.href = '#'; cta.onclick = e => e.preventDefault();
   } else {
     cta.textContent = 'Enquire About This Watch';
-    cta.className = 'modal-cta';
-    const s = encodeURIComponent('Enquiry: ' + w.Brand + ' ' + w.Name);
-    const b = encodeURIComponent('Hi,\n\nI\'m interested in the ' + w.Brand + ' ' + w.Name + ' listed at ' + w.Price + '.\n\nIs it still available?\n\nThank you');
+    cta.className = 'mcta';
+    const s = encodeURIComponent('Enquiry: ' + (w.Brand||'') + ' ' + (w.Name||''));
+    const b = encodeURIComponent('Hi,\n\nI\'m interested in the ' + (w.Brand||'') + ' ' + (w.Name||'') + ' listed at ' + (w.Price||'') + '.\n\nIs it available?\n\nThank you');
     cta.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + s + '&body=' + b;
     cta.onclick = null;
   }
-
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-document.getElementById('mClose').onclick = close;
-document.getElementById('overlay').onclick = e => { if (e.target === document.getElementById('overlay')) close(); };
-document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-function close() { document.getElementById('overlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('mClose').onclick = closeM;
+document.getElementById('overlay').onclick = e => { if (e.target.id === 'overlay') closeM(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeM(); });
+function closeM() { document.getElementById('overlay').classList.remove('open'); document.body.style.overflow = ''; }
 
-document.querySelectorAll('.fbtn').forEach(b => b.onclick = () => {
-  document.querySelectorAll('.fbtn').forEach(x => x.classList.remove('on'));
+document.querySelectorAll('.ftab').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.ftab').forEach(x => x.classList.remove('on'));
   b.classList.add('on'); filter = b.dataset.f; render();
 });
-
 document.getElementById('search').oninput = e => { query = e.target.value; render(); };
 
 load();
