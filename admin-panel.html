@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Watch Room — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root {
+  --bg:#0d0d0d; --s1:#161616; --s2:#1e1e1e; --s3:#252525;
+  --bd:#2c2c2c; --bd2:#383838;
+  --gold:#c8a05a; --gold2:#e8c07a; --goldbg:rgba(200,160,90,.1);
+  --tx:#e5e5e5; --tx2:#a0a0a0; --tx3:#666;
+  --green:#5cb87a; --red:#e05858;
+  --r:5px;
+}
+
+body { background:var(--bg); color:var(--tx); font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh; }
+
+/* ── TOP BAR ── */
+.bar {
+  height:54px; background:var(--s1); border-bottom:1px solid var(--bd);
+  display:flex; align-items:center; padding:0 1.25rem; gap:.75rem;
+  position:sticky; top:0; z-index:200;
+}
+.bar-logo { font-family:'DM Mono',monospace; font-size:.72rem; letter-spacing:.18em; color:var(--gold); text-transform:uppercase; }
+.bar-sep { color:var(--bd2); }
+.bar-sub { font-size:.72rem; color:var(--tx3); }
+.bar-pill {
+  margin-left:auto; font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.12em;
+  padding:.2rem .65rem; border-radius:20px;
+}
+.pill-off  { background:rgba(100,100,100,.15); color:var(--tx3); }
+.pill-on   { background:rgba(92,184,122,.12);  color:var(--green); }
+.pill-err  { background:rgba(224,88,88,.12);   color:var(--red); }
+
+/* ── LAYOUT ── */
+.wrap { max-width:1080px; margin:0 auto; padding:1.5rem 1.25rem 4rem; display:grid; grid-template-columns:1fr 320px; gap:1.25rem; align-items:start; }
+@media(max-width:750px){ .wrap { grid-template-columns:1fr; } .side { order:-1; } }
+
+/* ── PANEL ── */
+.panel { background:var(--s1); border:1px solid var(--bd); border-radius:var(--r); overflow:hidden; }
+.ph { padding:.85rem 1.25rem; border-bottom:1px solid var(--bd); display:flex; align-items:center; gap:.6rem; }
+.ph-title { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--tx3); }
+.ph-badge { margin-left:auto; font-family:'DM Mono',monospace; font-size:.58rem; padding:.15rem .5rem; border-radius:3px; }
+.pb { padding:1.25rem; }
+
+/* ── FORM ── */
+.fgrid { display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
+.fgrid .full { grid-column:1/-1; }
+.field { display:flex; flex-direction:column; gap:.35rem; }
+label { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--tx3); }
+label .req { color:var(--gold); }
+input, textarea, select {
+  font-family:'DM Sans',sans-serif; font-size:.84rem; font-weight:300;
+  background:var(--s2); border:1px solid var(--bd); color:var(--tx);
+  padding:.6rem .8rem; border-radius:var(--r); outline:none; width:100%;
+  transition:border-color .15s; appearance:none; -webkit-appearance:none;
+}
+input:focus, textarea:focus, select:focus { border-color:var(--gold); }
+input::placeholder, textarea::placeholder { color:var(--tx3); }
+textarea { resize:vertical; min-height:85px; line-height:1.65; }
+
+/* ── DROP ZONE ── */
+.drop {
+  border:1.5px dashed var(--bd2); border-radius:var(--r);
+  background:var(--s2); position:relative;
+  cursor:pointer; transition:.2s; overflow:hidden;
+}
+.drop:hover, .drop.over { border-color:var(--gold); background:var(--goldbg); }
+.drop input[type=file] { position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
+.drop-inner { padding:2rem 1rem; text-align:center; pointer-events:none; }
+.drop-ico { font-size:1.8rem; opacity:.35; margin-bottom:.5rem; }
+.drop-txt { font-size:.78rem; color:var(--tx2); line-height:1.6; }
+.drop-txt strong { color:var(--gold2); font-weight:400; }
+.drop-preview { display:none; width:100%; aspect-ratio:1; max-height:220px; object-fit:cover; border-radius:calc(var(--r) - 1px); }
+.drop-rm {
+  display:none; position:absolute; top:.5rem; right:.5rem;
+  background:rgba(0,0,0,.7); border:none; color:#fff;
+  width:28px; height:28px; border-radius:50%; cursor:pointer;
+  font-size:.8rem; align-items:center; justify-content:center;
+  pointer-events:all;
+}
+
+/* ── PROGRESS ── */
+.prog { display:none; margin-top:.7rem; }
+.prog-track { height:2px; background:var(--bd); border-radius:2px; overflow:hidden; margin-bottom:.35rem; }
+.prog-fill { height:100%; background:var(--gold); border-radius:2px; transition:width .3s; width:0; }
+.prog-lbl { font-family:'DM Mono',monospace; font-size:.6rem; color:var(--tx3); letter-spacing:.08em; }
+
+/* ── TOGGLE ── */
+.tog { display:flex; gap:.5rem; }
+.tog-btn {
+  flex:1; padding:.55rem .5rem; text-align:center;
+  border:1px solid var(--bd); background:transparent; color:var(--tx3);
+  font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase;
+  cursor:pointer; border-radius:var(--r); transition:.15s;
+}
+.tog-btn.yes { border-color:var(--green); color:var(--green); background:rgba(92,184,122,.1); }
+.tog-btn.no  { border-color:var(--red);   color:var(--red);   background:rgba(224,88,88,.1); }
+
+/* ── SUBMIT ── */
+.sub-btn {
+  width:100%; margin-top:1.1rem; padding:.9rem;
+  background:var(--gold); color:#0d0d0d; border:none; border-radius:var(--r);
+  font-family:'DM Mono',monospace; font-size:.68rem; font-weight:500;
+  letter-spacing:.22em; text-transform:uppercase; cursor:pointer;
+  transition:opacity .15s,transform .1s;
+}
+.sub-btn:hover { opacity:.88; }
+.sub-btn:active { transform:scale(.99); }
+.sub-btn:disabled { opacity:.3; cursor:not-allowed; }
+.cancel-btn {
+  width:100%; margin-top:.5rem; padding:.7rem;
+  background:transparent; color:var(--tx3); border:1px solid var(--bd);
+  border-radius:var(--r); font-family:'DM Mono',monospace; font-size:.62rem;
+  letter-spacing:.18em; text-transform:uppercase; cursor:pointer; transition:.15s;
+}
+.cancel-btn:hover { border-color:var(--bd2); color:var(--tx2); }
+
+/* ── CONFIG ── */
+.cfg-field { margin-bottom:.85rem; }
+.cfg-field:last-child { margin-bottom:0; }
+.cfg-in {
+  font-family:'DM Mono',monospace; font-size:.68rem;
+  background:var(--s2); border:1px solid var(--bd); color:var(--gold2);
+  padding:.5rem .75rem; border-radius:var(--r); outline:none; width:100%;
+  transition:border-color .15s;
+}
+.cfg-in:focus { border-color:var(--gold); }
+.cfg-in::placeholder { color:var(--tx3); }
+.save-btn {
+  width:100%; margin-top:.85rem; padding:.6rem;
+  background:transparent; border:1px solid var(--gold); color:var(--gold);
+  font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase;
+  cursor:pointer; border-radius:var(--r); transition:.15s;
+}
+.save-btn:hover { background:var(--goldbg); }
+
+/* ── INVENTORY LIST ── */
+.inv-wrap { padding:0 1.25rem; }
+.inv-item {
+  display:flex; align-items:center; gap:.75rem;
+  padding:.7rem 0; border-bottom:1px solid var(--bd); cursor:pointer;
+  transition:background .15s; border-radius:3px;
+}
+.inv-item:last-child { border-bottom:none; }
+.inv-item:hover { background:var(--s2); margin:0 -.5rem; padding:.7rem .5rem; }
+.inv-thumb {
+  width:44px; height:44px; border-radius:3px; object-fit:cover;
+  background:var(--s3); border:1px solid var(--bd); flex-shrink:0;
+}
+.inv-ph {
+  width:44px; height:44px; border-radius:3px; background:var(--s3);
+  border:1px solid var(--bd); flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  color:var(--tx3); font-size:1.1rem;
+}
+.inv-info { flex:1; min-width:0; }
+.inv-name { font-size:.82rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.inv-sub  { font-size:.67rem; color:var(--tx3); margin-top:.12rem; }
+.inv-actions { display:flex; gap:.35rem; flex-shrink:0; }
+.ia-btn {
+  width:26px; height:26px; border:1px solid var(--bd); background:transparent; color:var(--tx3);
+  border-radius:3px; cursor:pointer; font-size:.75rem; display:flex; align-items:center; justify-content:center;
+  transition:.15s;
+}
+.ia-btn:hover.edit { border-color:var(--gold); color:var(--gold); }
+.ia-btn:hover.del  { border-color:var(--red);  color:var(--red); }
+.dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.dot.y { background:var(--green); }
+.dot.n { background:var(--red); }
+.inv-empty { text-align:center; padding:2rem 0; color:var(--tx3); font-size:.78rem; line-height:1.7; }
+
+/* ── STEP LIST ── */
+.steps { list-style:none; counter-reset:s; }
+.steps li { counter-increment:s; display:flex; gap:.7rem; font-size:.74rem; color:var(--tx2); line-height:1.65; padding:.55rem 0; border-bottom:1px solid var(--bd); }
+.steps li:last-child { border-bottom:none; }
+.steps li::before { content:counter(s); font-family:'DM Mono',monospace; font-size:.58rem; color:var(--gold); background:var(--goldbg); min-width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+code { font-family:'DM Mono',monospace; font-size:.68rem; background:var(--goldbg); color:var(--gold2); padding:.1rem .35rem; border-radius:3px; }
+
+/* ── MODAL CONFIRM ── */
+.confirm-overlay {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:rgba(0,0,0,.75); backdrop-filter:blur(4px);
+  align-items:center; justify-content:center; padding:1rem;
+}
+.confirm-overlay.open { display:flex; }
+.confirm-box {
+  background:var(--s1); border:1px solid var(--bd); border-radius:var(--r);
+  padding:2rem; max-width:340px; width:100%; text-align:center;
+}
+.confirm-box h3 { font-family:'DM Mono',monospace; font-size:.8rem; letter-spacing:.1em; margin-bottom:.75rem; }
+.confirm-box p { font-size:.8rem; color:var(--tx2); line-height:1.6; margin-bottom:1.5rem; }
+.confirm-btns { display:flex; gap:.75rem; }
+.cb-cancel { flex:1; padding:.65rem; background:transparent; border:1px solid var(--bd); color:var(--tx2); border-radius:var(--r); cursor:pointer; font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; transition:.15s; }
+.cb-cancel:hover { border-color:var(--bd2); }
+.cb-del { flex:1; padding:.65rem; background:rgba(224,88,88,.12); border:1px solid var(--red); color:var(--red); border-radius:var(--r); cursor:pointer; font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; transition:.15s; }
+.cb-del:hover { background:rgba(224,88,88,.2); }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(16px);
+  background:var(--s1); border:1px solid var(--bd); border-radius:var(--r);
+  padding:.65rem 1.2rem; font-size:.78rem; opacity:0; transition:.3s;
+  pointer-events:none; white-space:nowrap; z-index:999;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast.ok  { border-color:var(--green); }
+.toast.err { border-color:var(--red); }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="bar-logo">Watch Room</span>
+  <span class="bar-sep">/</span>
+  <span class="bar-sub">Admin</span>
+  <span class="bar-pill pill-off" id="pill">● Not configured</span>
+</div>
+
+<div class="wrap">
+
+  <!-- ── MAIN FORM ── -->
+  <div>
+    <div class="panel">
+      <div class="ph">
+        <span class="ph-title" id="formTitle">Add New Watch</span>
+        <span class="ph-badge" id="formBadge" style="background:rgba(100,100,100,.15);color:var(--tx3)">SETUP REQUIRED</span>
+      </div>
+      <div class="pb">
+        <input type="hidden" id="editId">
+
+        <!-- PHOTO -->
+        <div class="field full" style="margin-bottom:1rem">
+          <label>Photo</label>
+          <div class="drop" id="drop">
+            <input type="file" id="fileIn" accept="image/*" capture="environment">
+            <div class="drop-inner" id="dropInner">
+              <div class="drop-ico">📷</div>
+              <div class="drop-txt"><strong>Tap to take photo or upload</strong><br>Drag & drop · JPG, PNG, HEIC supported</div>
+            </div>
+            <img class="drop-preview" id="preview" src="" alt="">
+            <button class="drop-rm" id="rmImg" type="button">✕</button>
+          </div>
+          <div class="prog" id="prog">
+            <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+            <span class="prog-lbl" id="progLbl">Uploading…</span>
+          </div>
+        </div>
+
+        <div class="fgrid">
+          <div class="field"><label>Watch Name <span class="req">*</span></label><input id="fName" placeholder="e.g. Submariner Date"></div>
+          <div class="field"><label>Brand <span class="req">*</span></label><input id="fBrand" placeholder="e.g. Rolex"></div>
+          <div class="field"><label>Price <span class="req">*</span></label><input id="fPrice" placeholder="e.g. $12,500"></div>
+          <div class="field"><label>Condition</label>
+            <select id="fCond">
+              <option value="">Select…</option>
+              <option>Mint</option><option>Excellent</option><option>Very Good</option><option>Good</option><option>Fair</option>
+            </select>
+          </div>
+          <div class="field"><label>Reference No.</label><input id="fRef" placeholder="e.g. 116610LN"></div>
+          <div class="field"><label>Year</label><input id="fYear" placeholder="e.g. 2019" type="number"></div>
+          <div class="field full"><label>Description</label><textarea id="fDesc" placeholder="Box & papers, service history, dial variant, bracelet condition…"></textarea></div>
+          <div class="field full"><label>Availability</label>
+            <div class="tog">
+              <button class="tog-btn yes" id="tYes" type="button" onclick="setAvail('Yes')">● Available</button>
+              <button class="tog-btn"     id="tNo"  type="button" onclick="setAvail('Sold')">● Sold</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="sub-btn"    id="subBtn"    onclick="submit()">+ Add to Inventory</button>
+        <button class="cancel-btn" id="cancelBtn" onclick="resetForm()" style="display:none">Cancel Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <div class="side">
+
+    <!-- CONFIG -->
+    <div class="panel" style="margin-bottom:1.25rem">
+      <div class="ph"><span class="ph-title">Configuration</span></div>
+      <div class="pb">
+        <div class="cfg-field">
+          <label style="display:block;margin-bottom:.35rem">Apps Script URL</label>
+          <input class="cfg-in" id="cfgUrl" placeholder="https://script.google.com/…" type="url">
+        </div>
+        <button class="save-btn" onclick="saveConfig()">Save & Connect</button>
+      </div>
+    </div>
+
+    <!-- SETUP STEPS -->
+    <div class="panel" style="margin-bottom:1.25rem">
+      <div class="ph"><span class="ph-title">Setup — One Time</span></div>
+      <div class="pb">
+        <ol class="steps">
+          <li>Open <a href="https://script.google.com" target="_blank" style="color:var(--gold)">script.google.com</a> → New Project</li>
+          <li>Click <strong>Copy Script</strong> below, paste it in, replacing all existing code</li>
+          <li>On line 12 of the script, paste your Google Sheet ID</li>
+          <li>Click <strong>Deploy → New deployment → Web App</strong></li>
+          <li>Set <em>Execute as:</em> <code>Me</code> and <em>Access:</em> <code>Anyone</code></li>
+          <li>Authorize, copy the Web App URL, paste above</li>
+          <li>Paste the same URL into <code>customer-site.html</code> line 3</li>
+        </ol>
+        <button class="save-btn" style="margin-top:1rem" onclick="copyScript()">📋 Copy Apps Script Code</button>
+      </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div class="panel">
+      <div class="ph">
+        <span class="ph-title">Inventory</span>
+        <span class="ph-badge" id="invBadge" style="background:rgba(100,100,100,.15);color:var(--tx3)">—</span>
+      </div>
+      <div class="inv-wrap" id="invList">
+        <div class="inv-empty">Connect sheet to see inventory.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>Delete Watch?</h3>
+    <p id="confirmMsg">This will permanently remove the watch from your inventory.</p>
+    <div class="confirm-btns">
+      <button class="cb-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="cb-del"    id="confirmDel">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────
+const SCRIPT_URL_KEY = 'wr_admin_url';
+let cfg = { url: localStorage.getItem(SCRIPT_URL_KEY) || '' };
+let avail = 'Yes';
+let file  = null;
+let uploadedUrl = '';
+let editingId   = '';
+
+// ── BOOT ─────────────────────────────────────────────────
+window.onload = () => {
+  document.getElementById('cfgUrl').value = cfg.url;
+  updateStatus();
+  if (cfg.url) loadInventory();
+};
+
+// ── CONFIG ────────────────────────────────────────────────
+function saveConfig() {
+  cfg.url = document.getElementById('cfgUrl').value.trim();
+  localStorage.setItem(SCRIPT_URL_KEY, cfg.url);
+  updateStatus();
+  if (cfg.url) { loadInventory(); toast('Connected!', 'ok'); }
+  else toast('Please enter a URL', 'err');
+}
+
+function updateStatus() {
+  const pill  = document.getElementById('pill');
+  const badge = document.getElementById('formBadge');
+  if (cfg.url) {
+    pill.textContent = '● Connected';
+    pill.className   = 'bar-pill pill-on';
+    badge.textContent = 'LIVE';
+    badge.style.background = 'rgba(92,184,122,.12)';
+    badge.style.color = 'var(--green)';
+  } else {
+    pill.textContent = '● Not configured';
+    pill.className   = 'bar-pill pill-off';
+    badge.textContent = 'SETUP REQUIRED';
+    badge.style.background = 'rgba(100,100,100,.15)';
+    badge.style.color = 'var(--tx3)';
+  }
+}
+
+// ── AVAILABILITY ──────────────────────────────────────────
+function setAvail(v) {
+  avail = v;
+  document.getElementById('tYes').className = 'tog-btn' + (v==='Yes'  ? ' yes' : '');
+  document.getElementById('tNo' ).className = 'tog-btn' + (v==='Sold' ? ' no'  : '');
+}
+
+// ── IMAGE ─────────────────────────────────────────────────
+const drop = document.getElementById('drop');
+const fileIn = document.getElementById('fileIn');
+const preview = document.getElementById('preview');
+const dropInner = document.getElementById('dropInner');
+const rmImg = document.getElementById('rmImg');
+
+drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+drop.addEventListener('drop', e => {
+  e.preventDefault(); drop.classList.remove('over');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) setFile(f);
+});
+fileIn.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
+
+function setFile(f) {
+  file = f; uploadedUrl = '';
+  const r = new FileReader();
+  r.onload = ev => {
+    preview.src = ev.target.result;
+    preview.style.display = 'block';
+    dropInner.style.display = 'none';
+    rmImg.style.display = 'flex';
+    fileIn.style.display = 'none';
+  };
+  r.readAsDataURL(f);
+}
+
+rmImg.onclick = e => {
+  e.stopPropagation();
+  file = null; uploadedUrl = '';
+  fileIn.value = '';
+  preview.style.display = 'none';
+  dropInner.style.display = 'block';
+  rmImg.style.display = 'none';
+  fileIn.style.display = 'block';
+};
+
+async function uploadImage() {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = async ev => {
+      const b64 = ev.target.result.split(',')[1];
+      try {
+        const resp = await post({ action:'uploadImage', fileName:file.name, mimeType:file.type, base64:b64 });
+        if (resp.url) res(resp.url); else rej(new Error(resp.error || 'Upload failed'));
+      } catch(e) { rej(e); }
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+// ── SUBMIT ────────────────────────────────────────────────
+async function submit() {
+  if (!cfg.url) { toast('Configure the Apps Script URL first', 'err'); return; }
+  const name  = document.getElementById('fName').value.trim();
+  const brand = document.getElementById('fBrand').value.trim();
+  const price = document.getElementById('fPrice').value.trim();
+  if (!name||!brand||!price) { toast('Name, brand and price are required', 'err'); return; }
+
+  const btn = document.getElementById('subBtn');
+  btn.disabled = true;
+  btn.textContent = editingId ? 'Saving…' : 'Adding…';
+
+  try {
+    if (file && !uploadedUrl) {
+      showProg(30, 'Uploading photo…');
+      uploadedUrl = await uploadImage();
+      showProg(100, 'Photo uploaded ✓');
+      setTimeout(() => hideProg(), 800);
+    }
+
+    const data = {
+      action:      editingId ? 'updateWatch' : 'addWatch',
+      Name:        name,
+      Brand:       brand,
+      Price:       price,
+      Description: document.getElementById('fDesc').value.trim(),
+      Condition:   document.getElementById('fCond').value,
+      Reference:   document.getElementById('fRef').value.trim(),
+      Year:        document.getElementById('fYear').value.trim(),
+      Available:   avail,
+    };
+    if (editingId)   data.id    = editingId;
+    if (uploadedUrl) data.Image = uploadedUrl;
+
+    const resp = await post(data);
+    if (resp.success || resp.id) {
+      toast(editingId ? 'Watch updated!' : 'Watch added!', 'ok');
+      resetForm();
+      loadInventory();
+    } else throw new Error(resp.error || 'Unknown error');
+  } catch(e) {
+    toast('Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editingId ? 'Save Changes' : '+ Add to Inventory';
+  }
+}
+
+function resetForm() {
+  editingId = '';
+  ['fName','fBrand','fPrice','fDesc','fRef','fYear'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fCond').value = '';
+  setAvail('Yes');
+  file = null; uploadedUrl = '';
+  fileIn.value = '';
+  preview.style.display = 'none';
+  dropInner.style.display = 'block';
+  rmImg.style.display = 'none';
+  fileIn.style.display = 'block';
+  document.getElementById('editId').value = '';
+  document.getElementById('subBtn').textContent = '+ Add to Inventory';
+  document.getElementById('cancelBtn').style.display = 'none';
+  document.getElementById('formTitle').textContent = 'Add New Watch';
+  hideProg();
+}
+
+// ── EDIT ─────────────────────────────────────────────────
+function editWatch(w) {
+  editingId = w.ID;
+  document.getElementById('fName').value  = w.Name  || '';
+  document.getElementById('fBrand').value = w.Brand || '';
+  document.getElementById('fPrice').value = w.Price || '';
+  document.getElementById('fDesc').value  = w.Description || '';
+  document.getElementById('fCond').value  = w.Condition   || '';
+  document.getElementById('fRef').value   = w.Reference   || '';
+  document.getElementById('fYear').value  = w.Year        || '';
+  setAvail(w.Available === 'Sold' ? 'Sold' : 'Yes');
+
+  if (w.Image) {
+    uploadedUrl = w.Image;
+    preview.src = w.Image;
+    preview.style.display = 'block';
+    dropInner.style.display = 'none';
+    rmImg.style.display = 'flex';
+    fileIn.style.display = 'none';
+  }
+
+  document.getElementById('subBtn').textContent = 'Save Changes';
+  document.getElementById('cancelBtn').style.display = 'block';
+  document.getElementById('formTitle').textContent = 'Edit Watch';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── DELETE ────────────────────────────────────────────────
+let pendingDeleteId = '';
+function confirmDelete(w) {
+  pendingDeleteId = w.ID;
+  document.getElementById('confirmMsg').textContent = `Delete "${w.Brand} ${w.Name}"? This cannot be undone.`;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('open'); pendingDeleteId = ''; }
+document.getElementById('confirmDel').onclick = async () => {
+  if (!pendingDeleteId) return;
+  closeConfirm();
+  try {
+    const resp = await post({ action:'deleteWatch', id:pendingDeleteId });
+    if (resp.success) { toast('Watch deleted', 'ok'); loadInventory(); }
+    else throw new Error(resp.error);
+  } catch(e) { toast('Error: ' + e.message, 'err'); }
+};
+
+// ── INVENTORY ─────────────────────────────────────────────
+async function loadInventory() {
+  if (!cfg.url) return;
+  try {
+    const resp = await fetch(cfg.url + '?action=getInventory');
+    const json = await resp.json();
+    renderInventory(json.watches || []);
+  } catch(e) {
+    document.getElementById('invList').innerHTML = `<div class="inv-empty">Couldn't load — check URL.<br>${e.message}</div>`;
+  }
+}
+
+function renderInventory(watches) {
+  const el = document.getElementById('invList');
+  const badge = document.getElementById('invBadge');
+  badge.textContent = watches.length + ' total';
+  badge.style.background = 'rgba(200,160,90,.1)';
+  badge.style.color = 'var(--gold)';
+
+  if (!watches.length) {
+    el.innerHTML = '<div class="inv-empty">No watches yet.<br>Add your first one!</div>';
+    return;
+  }
+
+  const recent = [...watches].reverse().slice(0, 12);
+  el.innerHTML = recent.map(w => {
+    const sold = String(w.Available).toLowerCase() === 'sold';
+    return `<div class="inv-item">
+      ${w.Image
+        ? `<img class="inv-thumb" src="${w.Image}" alt="${w.Name}" onerror="this.outerHTML='<div class=inv-ph>⌚</div>'">`
+        : '<div class="inv-ph">⌚</div>'}
+      <div class="inv-info">
+        <div class="inv-name">${w.Brand} ${w.Name}</div>
+        <div class="inv-sub">${w.Price||'—'}${w.Condition ? ' · '+w.Condition : ''}</div>
+      </div>
+      <div class="inv-actions">
+        <button class="ia-btn edit" title="Edit" onclick="editWatch(${JSON.stringify(w).replace(/"/g,'&quot;')})">✏️</button>
+        <button class="ia-btn del"  title="Delete" onclick="confirmDelete(${JSON.stringify(w).replace(/"/g,'&quot;')})">🗑</button>
+      </div>
+      <div class="dot ${sold ? 'n' : 'y'}"></div>
+    </div>`;
+  }).join('');
+}
+
+// ── HELPERS ───────────────────────────────────────────────
+async function post(data) {
+  const r = await fetch(cfg.url, { method:'POST', body:JSON.stringify(data) });
+  return r.json();
+}
+
+function showProg(pct, lbl) {
+  document.getElementById('prog').style.display = 'block';
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLbl').textContent = lbl;
+}
+function hideProg() { document.getElementById('prog').style.display = 'none'; }
+
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = (type==='ok' ? '✓ ' : type==='err' ? '✕ ' : '') + msg;
+  el.className = `toast ${type} show`;
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── COPY APPS SCRIPT ──────────────────────────────────────
+function copyScript() {
+  const code = `// ============================================================
+//  WATCH ROOM — Google Apps Script
+//  
+//  HOW TO USE:
+//  1. Paste this entire file into script.google.com
+//  2. On line below, paste YOUR Google Sheet ID
+//  3. Deploy → New Deployment → Web App
+//       Execute as: Me   |   Who has access: Anyone
+//  4. Copy the Web App URL into both HTML files
+// ============================================================
+
+const SPREADSHEET_ID = 'PASTE_YOUR_SHEET_ID_HERE'; // ← edit this
+const SHEET_NAME     = 'Inventory';
+const DRIVE_FOLDER   = 'Watch Room — Images';
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    if (data.action === 'uploadImage')  return respond(handleImageUpload(data));
+    if (data.action === 'addWatch')     return respond(handleAddWatch(data));
+    if (data.action === 'updateWatch')  return respond(handleUpdateWatch(data));
+    if (data.action === 'deleteWatch')  return respond(handleDeleteWatch(data));
+    return respond({ error: 'Unknown action' });
+  } catch (err) { return respond({ error: err.message }); }
+}
+
+function doGet(e) {
+  try {
+    if (e.parameter.action === 'getInventory') return respond(handleGetInventory());
+    return respond({ error: 'Unknown action' });
+  } catch (err) { return respond({ error: err.message }); }
+}
+
+function handleImageUpload(data) {
+  const folder = getOrCreateFolder(DRIVE_FOLDER);
+  const bytes  = Utilities.base64Decode(data.base64);
+  const blob   = Utilities.newBlob(bytes, data.mimeType, data.fileName);
+  const file   = folder.createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return { success: true, url: 'https://drive.google.com/uc?export=view&id=' + file.getId() };
+}
+
+function getOrCreateFolder(name) {
+  const it = DriveApp.getFoldersByName(name);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(name);
+}
+
+function handleAddWatch(data) {
+  const sheet = getSheet();
+  ensureHeaders(sheet);
+  const id = 'WR-' + Date.now();
+  sheet.appendRow([id, data.Name||'', data.Brand||'', data.Price||'', data.Description||'', data.Condition||'', data.Reference||'', data.Year||'', data.Image||'', data.Available||'Yes', new Date().toISOString()]);
+  return { success: true, id };
+}
+
+function handleUpdateWatch(data) {
+  const sheet = getSheet();
+  const rows  = sheet.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]) === String(data.id)) {
+      const r = i + 1;
+      if (data.Name        !== undefined) sheet.getRange(r,2).setValue(data.Name);
+      if (data.Brand       !== undefined) sheet.getRange(r,3).setValue(data.Brand);
+      if (data.Price       !== undefined) sheet.getRange(r,4).setValue(data.Price);
+      if (data.Description !== undefined) sheet.getRange(r,5).setValue(data.Description);
+      if (data.Condition   !== undefined) sheet.getRange(r,6).setValue(data.Condition);
+      if (data.Reference   !== undefined) sheet.getRange(r,7).setValue(data.Reference);
+      if (data.Year        !== undefined) sheet.getRange(r,8).setValue(data.Year);
+      if (data.Image)                     sheet.getRange(r,9).setValue(data.Image);
+      if (data.Available   !== undefined) sheet.getRange(r,10).setValue(data.Available);
+      return { success: true };
+    }
+  }
+  return { error: 'Watch not found' };
+}
+
+function handleDeleteWatch(data) {
+  const sheet = getSheet();
+  const rows  = sheet.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]) === String(data.id)) { sheet.deleteRow(i+1); return { success: true }; }
+  }
+  return { error: 'Watch not found' };
+}
+
+function handleGetInventory() {
+  const sheet = getSheet();
+  if (sheet.getLastRow() < 2) return { watches: [] };
+  const rows    = sheet.getDataRange().getValues();
+  const headers = rows[0];
+  return { watches: rows.slice(1).map(row => { const o={}; headers.forEach((h,i)=>o[h]=row[i]); return o; }) };
+}
+
+function getSheet() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  let sh   = ss.getSheetByName(SHEET_NAME);
+  if (!sh) { sh = ss.insertSheet(SHEET_NAME); ensureHeaders(sh); }
+  return sh;
+}
+
+function ensureHeaders(sheet) {
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['ID','Name','Brand','Price','Description','Condition','Reference','Year','Image','Available','Added']);
+    sheet.getRange(1,1,1,11).setFontWeight('bold').setBackground('#1a1a1a').setFontColor('#c9a84c');
+    sheet.setFrozenRows(1);
+    sheet.setColumnWidth(5,320); sheet.setColumnWidth(9,280);
+  }
+}
+
+function respond(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}`;
+
+  navigator.clipboard.writeText(code)
+    .then(()  => toast('Apps Script code copied!', 'ok'))
+    .catch(()  => { const t=document.createElement('textarea'); t.value=code; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); toast('Copied!','ok'); });
+}
+</script>
+</body>
+</html>
