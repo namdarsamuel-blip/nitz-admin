@@ -99,6 +99,10 @@ body{background:var(--bg);font-family:'Inter',sans-serif;font-weight:400;color:v
 .inv-btn{width:34px;height:34px;border-radius:9px;background:var(--lighter);border:none;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:background .15s}
 .inv-btn:hover{background:var(--light)}
 .inv-btn.del:hover{background:#fef2f2}
+.inv-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.inv-ftabs{display:flex;gap:2px;background:var(--lighter);border-radius:10px;padding:3px}
+.inv-ftab{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:6px 12px;border:none;background:transparent;color:var(--mid);border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
+.inv-ftab.on{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .inv-empty{text-align:center;padding:60px 20px;color:var(--mid);font-size:15px;line-height:1.7}
 .inv-empty-icon{font-size:36px;margin-bottom:12px}
 .loading-wrap{display:flex;align-items:center;justify-content:center;gap:10px;padding:60px 20px;color:var(--mid);font-size:14px}
@@ -165,7 +169,7 @@ ol.dsteps li::before{content:counter(ds);min-width:22px;height:22px;border-radiu
 
       <!-- PHOTO -->
       <div class="photo-card" id="photoCard">
-        <input type="file" id="fileIn" accept="image/*" capture="environment">
+        <input type="file" id="fileIn" accept="image/*">
         <div class="photo-empty" id="photoEmpty">
           <div class="photo-icon">📷</div>
           <div class="photo-label">Add Photo</div>
@@ -248,7 +252,14 @@ ol.dsteps li::before{content:counter(ds);min-width:22px;height:22px;border-radiu
   <!-- INVENTORY -->
   <div class="view" id="viewInv">
     <div class="inv-wrap">
-      <div class="inv-count" id="invCount"></div>
+      <div class="inv-toolbar">
+        <div class="inv-count" id="invCount"></div>
+        <div class="inv-ftabs">
+          <button class="inv-ftab on" data-inv-f="all"       onclick="setInvFilter(this)">All</button>
+          <button class="inv-ftab"    data-inv-f="available" onclick="setInvFilter(this)">Available</button>
+          <button class="inv-ftab"    data-inv-f="sold"      onclick="setInvFilter(this)">Sold</button>
+        </div>
+      </div>
       <div id="invList"><div class="loading-wrap"><div class="spin"></div> Loading…</div></div>
     </div>
   </div>
@@ -448,26 +459,55 @@ async function loadInventory() {
   } catch(e) { document.getElementById('invList').innerHTML='<div class="inv-empty"><div class="inv-empty-icon">⚠️</div>Check URL in Settings.</div>'; }
 }
 
+let allWatchesCache = [];
+let invFilter = 'all';
+
+function setInvFilter(btn) {
+  document.querySelectorAll('.inv-ftab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  invFilter = btn.dataset.invF;
+  renderInventory(allWatchesCache);
+}
+
 function renderInventory(watches) {
-  document.getElementById('invCount').textContent = watches.length+(watches.length===1?' watch':' watches');
-  if (!watches.length) { document.getElementById('invList').innerHTML='<div class="inv-empty"><div class="inv-empty-icon">⌚</div>No watches yet.<br>Add your first one!</div>'; return; }
-  document.getElementById('invList').innerHTML = '<div class="inv-list">'+[...watches].reverse().map(w=>{
-    const sold = String(w.Available).toLowerCase()==='sold';
-    const ws = JSON.stringify(w).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="inv-item">
-      ${w.Image?`<img class="inv-thumb" src="${w.Image}" alt="" onerror="this.outerHTML='<div class=inv-ph>⌚</div>'">`:'<div class="inv-ph">⌚</div>'}
-      <div class="inv-info">
-        <div class="inv-name">${w.Brand||''} ${w.Name||'Untitled'}</div>
-        <div class="inv-sub">${[w.Condition,w.Year].filter(Boolean).join(' · ')||'—'}</div>
-        <div class="inv-price">${w.Price||'—'}</div>
-      </div>
-      <div class="inv-right">
-        <div class="sdot ${sold?'n':'y'}"></div>
-        <button class="inv-btn"     onclick='startEdit(${JSON.stringify(w)})'>✏️</button>
-        <button class="inv-btn del" onclick='askDelete(${JSON.stringify(w)})'>🗑</button>
-      </div>
-    </div>`;
-  }).join('')+'</div>';
+  allWatchesCache = watches;
+  const filtered = watches.filter(w => {
+    const sold = String(w.Available).toLowerCase() === 'sold';
+    if (invFilter === 'available' &&  sold) return false;
+    if (invFilter === 'sold'      && !sold) return false;
+    return true;
+  });
+  const avail = watches.filter(w => String(w.Available).toLowerCase() !== 'sold').length;
+  const soldN  = watches.length - avail;
+  document.getElementById('invCount').textContent =
+    watches.length + ' total · ' + avail + ' available · ' + soldN + ' sold';
+
+  if (!filtered.length) {
+    const msg = invFilter === 'all' ? 'No watches yet.<br>Add your first one!' : 'No ' + invFilter + ' watches.';
+    document.getElementById('invList').innerHTML =
+      '<div class="inv-empty"><div class="inv-empty-icon">⌚</div>' + msg + '</div>';
+    return;
+  }
+
+  document.getElementById('invList').innerHTML =
+    '<div class="inv-list">' + [...filtered].reverse().map(w => {
+      const sold = String(w.Available).toLowerCase() === 'sold';
+      return `<div class="inv-item">
+        ${w.Image
+          ? `<img class="inv-thumb" src="${w.Image}" alt="" onerror="this.outerHTML='<div class=inv-ph>⌚</div>'">`
+          : '<div class="inv-ph">⌚</div>'}
+        <div class="inv-info">
+          <div class="inv-name">${w.Brand||''} ${w.Name||'Untitled'}</div>
+          <div class="inv-sub">${[w.Condition,w.Year].filter(Boolean).join(' · ')||'—'}</div>
+          <div class="inv-price">${w.Price||'—'}</div>
+        </div>
+        <div class="inv-right">
+          <div class="sdot ${sold ? 'n' : 'y'}"></div>
+          <button class="inv-btn"     onclick='startEdit(${JSON.stringify(w)})'>✏️</button>
+          <button class="inv-btn del" onclick='askDelete(${JSON.stringify(w)})'>🗑</button>
+        </div>
+      </div>`;
+    }).join('') + '</div>';
 }
 
 // EDIT
@@ -525,7 +565,7 @@ const DRIVE_FOLDER   = 'Watch Room — Images';
 
 function doPost(e){try{const d=JSON.parse(e.postData.contents);if(d.action==='uploadImage')return respond(handleImageUpload(d));if(d.action==='addWatch')return respond(handleAddWatch(d));if(d.action==='updateWatch')return respond(handleUpdateWatch(d));if(d.action==='deleteWatch')return respond(handleDeleteWatch(d));return respond({error:'Unknown action'})}catch(err){return respond({error:err.message})}}
 function doGet(e){try{if(e.parameter.action==='getInventory')return respond(handleGetInventory());return respond({error:'Unknown action'})}catch(err){return respond({error:err.message})}}
-function handleImageUpload(d){const f=getOrCreateFolder(DRIVE_FOLDER);const b=Utilities.newBlob(Utilities.base64Decode(d.base64),d.mimeType,d.fileName);const file=f.createFile(b);file.setSharing(DriveApp.Access.ANYONE_WITH_LINK,DriveApp.Permission.VIEW);return{success:true,url:'https://drive.google.com/uc?export=view&id='+file.getId()}}
+function handleImageUpload(d){const f=getOrCreateFolder(DRIVE_FOLDER);const b=Utilities.newBlob(Utilities.base64Decode(d.base64),d.mimeType,d.fileName);const file=f.createFile(b);file.setSharing(DriveApp.Access.ANYONE_WITH_LINK,DriveApp.Permission.VIEW);return{success:true,url:'https://lh3.googleusercontent.com/d/'+file.getId()}}
 function getOrCreateFolder(n){const it=DriveApp.getFoldersByName(n);return it.hasNext()?it.next():DriveApp.createFolder(n)}
 function handleAddWatch(d){const s=getSheet();ensureHeaders(s);const id='WR-'+Date.now();s.appendRow([id,d.Name||'',d.Brand||'',d.Price||'',d.Description||'',d.Condition||'',d.Reference||'',d.Year||'',d.Image||'',d.Available||'Yes',new Date().toISOString()]);return{success:true,id}}
 function handleUpdateWatch(d){const s=getSheet();const r=s.getDataRange().getValues();for(let i=1;i<r.length;i++){if(String(r[i][0])===String(d.id)){const n=i+1;if(d.Name!==undefined)s.getRange(n,2).setValue(d.Name);if(d.Brand!==undefined)s.getRange(n,3).setValue(d.Brand);if(d.Price!==undefined)s.getRange(n,4).setValue(d.Price);if(d.Description!==undefined)s.getRange(n,5).setValue(d.Description);if(d.Condition!==undefined)s.getRange(n,6).setValue(d.Condition);if(d.Reference!==undefined)s.getRange(n,7).setValue(d.Reference);if(d.Year!==undefined)s.getRange(n,8).setValue(d.Year);if(d.Image)s.getRange(n,9).setValue(d.Image);if(d.Available!==undefined)s.getRange(n,10).setValue(d.Available);return{success:true}}}return{error:'Not found'}}
