@@ -8,165 +8,153 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --black:#0a0a0a;
-  --white:#ffffff;
-  --off:#f6f5f2;
-  --mid:#767676;
-  --light:#d4d2cd;
-  --border:#e5e3de;
-  --accent:#b8860b;
+  --bk:#0a0a0a;--wh:#fff;--off:#f6f5f2;
+  --mid:#777;--lt:#d8d6d0;--bd:#e5e3de;
 }
 html{scroll-behavior:smooth}
-body{background:var(--white);color:var(--black);font-family:'Outfit',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh}
+body{background:var(--wh);color:var(--bk);font-family:'Outfit',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
 
-/* ── ANN BAR ── */
-.ann{background:var(--black);color:var(--white);text-align:center;padding:9px 16px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400}
+/* ANN */
+.ann{background:var(--bk);color:var(--wh);text-align:center;padding:9px;font-size:10px;letter-spacing:.22em;text-transform:uppercase}
 
-/* ── HEADER ── */
-header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:300;box-shadow:0 1px 0 var(--border)}
-.hinner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 28px;height:68px;max-width:1440px;margin:0 auto}
-.hnav{display:flex;gap:28px;align-items:center}
-.hnav a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:var(--mid);text-decoration:none;transition:color .15s}
-.hnav a:hover{color:var(--black)}
-.brand{font-size:18px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--black);text-decoration:none;white-space:nowrap;text-align:center;display:block}
-.hright{display:flex;justify-content:flex-end;align-items:center}
-.cta-btn{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;background:var(--black);color:var(--white);padding:9px 22px;text-decoration:none;transition:background .2s;border:none;cursor:pointer;font-family:'Outfit',sans-serif}
-.cta-btn:hover{background:#2a2a2a}
-@media(max-width:640px){.hnav{display:none}.brand{font-size:13px;letter-spacing:.2em}.hinner{grid-template-columns:1fr auto 1fr;padding:0 16px}}
+/* HEADER */
+header{background:var(--wh);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:300}
+.hi{max-width:1440px;margin:0 auto;padding:0 24px;height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.hnav{display:flex;gap:24px}
+.hnav a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:400;color:var(--mid);text-decoration:none;transition:color .15s}
+.hnav a:hover{color:var(--bk)}
+.brand{font-size:16px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--bk);text-decoration:none;text-align:center}
+.hright{display:flex;justify-content:flex-end}
+.enq{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;background:var(--bk);color:var(--wh);padding:9px 20px;text-decoration:none;transition:opacity .15s}
+.enq:hover{opacity:.8}
+@media(max-width:600px){.hnav{display:none}.brand{font-size:13px;letter-spacing:.2em}.hi{padding:0 16px}}
 
-/* ── HERO ── */
-.hero{background:var(--off);padding:72px 28px 64px;text-align:center;border-bottom:1px solid var(--border)}
-.hero-eye{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--mid);margin-bottom:18px;font-weight:400}
-.hero-h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(40px,7vw,92px);font-weight:400;line-height:.95;letter-spacing:-.02em;margin-bottom:18px}
-.hero-h1 em{font-style:italic;color:var(--mid)}
-.hero-p{font-size:14px;color:var(--mid);max-width:400px;margin:0 auto 32px;line-height:1.75;font-weight:300;letter-spacing:.02em}
-.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-dark{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:13px 28px;background:var(--black);color:var(--white);text-decoration:none;transition:background .2s}
-.btn-dark:hover{background:#2a2a2a}
-.btn-out{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:12px 28px;border:1px solid var(--black);color:var(--black);text-decoration:none;transition:.2s}
-.btn-out:hover{background:var(--black);color:var(--white)}
+/* HERO */
+.hero{background:var(--off);padding:72px 24px 64px;text-align:center;border-bottom:1px solid var(--bd)}
+.hero-eye{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--mid);margin-bottom:16px}
+.hero-h{font-family:'Playfair Display',serif;font-size:clamp(44px,8vw,96px);font-weight:400;line-height:.95;letter-spacing:-.02em;margin-bottom:16px}
+.hero-h em{font-style:italic;color:var(--mid)}
+.hero-p{font-size:14px;color:var(--mid);max-width:380px;margin:0 auto 28px;line-height:1.75}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-bk{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:13px 28px;background:var(--bk);color:var(--wh);text-decoration:none;transition:opacity .15s}
+.btn-bk:hover{opacity:.8}
+.btn-bd{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:12px 28px;border:1px solid var(--bk);color:var(--bk);text-decoration:none;transition:.2s}
+.btn-bd:hover{background:var(--bk);color:var(--wh)}
 
-/* ── FILTER BAR ── */
-.fbar-wrap{border-bottom:1px solid var(--border);position:sticky;top:68px;z-index:200;background:var(--white)}
-.fbar{max-width:1440px;margin:0 auto;padding:0 28px;display:flex;align-items:center;height:48px;gap:0}
-.fcount{font-size:11px;letter-spacing:.1em;color:var(--mid);margin-right:auto;white-space:nowrap;font-weight:400}
+/* FILTER */
+.fwrap{border-bottom:1px solid var(--bd);position:sticky;top:64px;z-index:200;background:var(--wh)}
+.fbar{max-width:1440px;margin:0 auto;padding:0 24px;height:46px;display:flex;align-items:center}
+.fcount{font-size:11px;letter-spacing:.1em;color:var(--mid);margin-right:auto}
 .ftabs{display:flex;height:100%}
-.ftab{font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;padding:0 16px;border:none;background:transparent;color:var(--mid);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;font-family:'Outfit',sans-serif;height:100%;display:flex;align-items:center}
-.ftab:hover{color:var(--black)}
-.ftab.on{color:var(--black);border-bottom-color:var(--black)}
-.fsep{width:1px;background:var(--border);height:24px;margin:0 8px}
-.fsearch{display:flex;align-items:center;gap:8px;padding:0 0 0 16px;border-left:1px solid var(--border);height:100%}
-.fsearch svg{width:13px;height:13px;color:var(--mid);flex-shrink:0}
-.fsearch input{font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;border:none;outline:none;color:var(--black);width:160px;background:transparent}
-.fsearch input::placeholder{color:var(--light)}
-@media(max-width:500px){.fsearch{display:none}}
+.ftab{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:400;padding:0 14px;border:none;background:transparent;color:var(--mid);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;font-family:'Outfit',sans-serif;height:100%;display:flex;align-items:center}
+.ftab:hover{color:var(--bk)}
+.ftab.on{color:var(--bk);border-bottom-color:var(--bk)}
+.fsearch{display:flex;align-items:center;gap:8px;border-left:1px solid var(--bd);padding-left:16px;height:100%}
+.fsearch svg{width:13px;height:13px;color:var(--mid)}
+.fsearch input{font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;border:none;outline:none;color:var(--bk);width:140px;background:transparent}
+.fsearch input::placeholder{color:var(--lt)}
+@media(max-width:480px){.fsearch{display:none}}
 
-/* ── SHOP GRID ── */
-.shop{max-width:1440px;margin:0 auto;padding:0 28px 80px}
-.grid-meta{padding:20px 0 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
+/* GRID */
+.shop{max-width:1440px;margin:0 auto;padding:0 24px 80px}
+.gmeta{padding:18px 0 14px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--bd)}
 @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:1024px){.grid{grid-template-columns:repeat(4,1fr)}}
 
-/* ── CARD ── */
-.card{background:var(--white);cursor:pointer;position:relative;overflow:hidden}
+/* CARD */
+.card{background:var(--wh);cursor:pointer;position:relative;overflow:hidden}
 .card:hover .cimg img{transform:scale(1.05)}
-.card:hover .cview{opacity:1}
+.card:hover .qv{opacity:1}
 .cimg{aspect-ratio:.82;overflow:hidden;background:var(--off);position:relative}
 .cimg img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94);display:block}
-.cimg-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--border);font-size:11px;letter-spacing:.3em;text-transform:uppercase}
-.cbadge{position:absolute;top:12px;left:12px;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px}
-.cbadge-sold{background:var(--black);color:var(--white)}
-.cview{position:absolute;bottom:12px;left:12px;right:12px;background:var(--white);text-align:center;padding:9px;font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;opacity:0;transition:opacity .2s}
-.cbody{padding:14px 16px 20px}
-.cbrand{font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
-.cname{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:400;line-height:1.2;margin-bottom:5px}
-.ccond{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:10px}
-.cprice{font-size:15px;font-weight:500;letter-spacing:.01em}
+.cimg-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--lt)}
+.sold-tag{position:absolute;top:11px;left:11px;background:var(--bk);color:var(--wh);font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px}
+.qv{position:absolute;bottom:11px;left:11px;right:11px;background:rgba(255,255,255,.95);text-align:center;padding:9px;font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;opacity:0;transition:opacity .2s}
+.cbody{padding:13px 14px 18px}
+.cbrand{font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:4px}
+.cname{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;line-height:1.2;margin-bottom:5px}
+.ccond{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:9px}
+.cprice{font-size:15px;font-weight:500}
 
-/* ── STATE ── */
+/* STATES */
 .state{padding:80px 20px;text-align:center;color:var(--mid)}
-.state h2{font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:400;color:var(--black);margin-bottom:8px}
+.state h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--bk);margin-bottom:8px}
 .state p{font-size:14px;line-height:1.75}
-.spin{width:22px;height:22px;border:1.5px solid var(--border);border-top-color:var(--black);border-radius:50%;animation:sp .6s linear infinite;margin:0 auto 18px}
+.spin{width:22px;height:22px;border:1.5px solid var(--bd);border-top-color:var(--bk);border-radius:50%;animation:sp .6s linear infinite;margin:0 auto 18px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ── MODAL ── */
-.overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px}
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.6);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:16px}
 .overlay.open{display:flex}
-.modal{background:var(--white);max-width:980px;width:100%;max-height:92vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:mup .25s ease}
+.modal{background:var(--wh);max-width:960px;width:100%;max-height:93vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:mup .24s ease}
 @media(max-width:600px){.modal{grid-template-columns:1fr}}
 @keyframes mup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.mclose{position:absolute;top:16px;right:16px;z-index:10;width:32px;height:32px;background:var(--white);border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.15s;color:var(--mid)}
-.mclose:hover{background:var(--black);color:var(--white);border-color:var(--black)}
-.mimg{overflow:hidden;background:var(--off);position:relative}
+.mcls{position:absolute;top:14px;right:14px;z-index:10;width:30px;height:30px;background:var(--wh);border:1px solid var(--bd);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;color:var(--mid);transition:.15s}
+.mcls:hover{background:var(--bk);color:var(--wh);border-color:var(--bk)}
+.mimg{overflow:hidden;background:var(--off)}
 .mimg img{width:100%;height:100%;object-fit:cover;display:block}
-.mimg-ph{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--border)}
-.mbody{padding:40px 36px;display:flex;flex-direction:column;overflow-y:auto}
-@media(max-width:600px){.mbody{padding:24px 20px}}
-.mbadge{display:inline-block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border);color:var(--mid);margin-bottom:20px;align-self:flex-start}
+.mimg-ph{width:100%;min-height:300px;height:100%;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--bd)}
+.mbody{padding:36px 32px;display:flex;flex-direction:column}
+@media(max-width:600px){.mbody{padding:22px 18px}}
+.mbadge{display:inline-block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:5px 11px;border:1px solid var(--bd);color:var(--mid);margin-bottom:18px;align-self:flex-start}
 .mbrand{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
-.mname{font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,3.5vw,34px);font-weight:400;line-height:1.1;margin-bottom:6px}
-.mmeta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.mname{font-family:'Playfair Display',serif;font-size:clamp(22px,3.5vw,32px);font-weight:400;line-height:1.1;margin-bottom:6px}
+.mmeta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);padding-bottom:18px;border-bottom:1px solid var(--bd);margin-bottom:18px}
 .mdesc{font-size:13px;line-height:1.85;color:#444;flex:1;margin-bottom:6px}
-.mref{font-size:11px;color:var(--mid);margin-bottom:20px}
-.mprice{font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:400;letter-spacing:-.01em;margin-bottom:22px}
-.mcta{display:block;padding:14px;background:var(--black);color:var(--white);text-align:center;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .2s}
-.mcta:hover{background:#2a2a2a}
-.mcta.sold{background:var(--mid);cursor:not-allowed}
+.mref{font-size:11px;color:var(--mid);margin-bottom:18px}
+.mprice{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;margin-bottom:20px}
+.mcta{display:block;padding:14px;background:var(--bk);color:var(--wh);text-align:center;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:opacity .15s}
+.mcta:hover{opacity:.8}
+.mcta.sold{background:var(--mid);cursor:not-allowed;opacity:1}
 
-/* ── ABOUT STRIP ── */
-.about{background:var(--black);color:var(--white);padding:64px 28px;text-align:center;border-top:1px solid #1a1a1a}
-.about h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,52px);font-weight:400;margin-bottom:12px;line-height:1.1}
-.about h2 em{font-style:italic;color:#888}
-.about p{font-size:13px;color:#777;max-width:420px;margin:0 auto 26px;line-height:1.85;letter-spacing:.02em}
-.about a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--white);border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;text-decoration:none;transition:.15s}
-.about a:hover{border-bottom-color:var(--white)}
+/* ABOUT */
+.about{background:var(--bk);color:var(--wh);padding:64px 24px;text-align:center}
+.about h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,52px);font-weight:400;margin-bottom:12px;line-height:1.1}
+.about h2 em{font-style:italic;color:#777}
+.about p{font-size:13px;color:#666;max-width:400px;margin:0 auto 24px;line-height:1.85}
+.about a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--wh);border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;text-decoration:none;transition:.15s}
+.about a:hover{border-bottom-color:var(--wh)}
 
-/* ── FOOTER ── */
-footer{background:var(--off);border-top:1px solid var(--border);padding:40px 28px}
-.footer-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+/* FOOTER */
+footer{background:var(--off);border-top:1px solid var(--bd);padding:36px 24px}
+.fi{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .fbrand{font-size:13px;font-weight:500;letter-spacing:.28em;text-transform:uppercase}
-.fcopy{font-size:11px;letter-spacing:.06em;color:var(--mid)}
-.fcopy a{color:var(--black);text-decoration:none}
-.fcopy a:hover{text-decoration:underline}
+.finfo{font-size:11px;color:var(--mid)}
+.finfo a{color:var(--bk);text-decoration:none}
+.finfo a:hover{text-decoration:underline}
 
-/* ── MOBILE ── */
-@media(max-width:480px){
-  .shop{padding:0 16px 60px}
-  .fbar{padding:0 16px}
-  .hero{padding:52px 20px 48px}
-}
+@media(max-width:480px){.shop{padding:0 14px 60px}.hero{padding:52px 16px 44px}}
 </style>
 </head>
 <body>
 
-<div class="ann">Fine &amp; Pre-Owned Timepieces — Contact Us for Availability</div>
+<div class="ann">Fine &amp; Pre-Owned Timepieces — Enquire for Availability</div>
 
 <header>
-  <div class="hinner">
+  <div class="hi">
     <nav class="hnav">
       <a href="#shop">Collection</a>
       <a href="#about">About</a>
     </nav>
     <a class="brand" href="#">NITZANI TRADINGS</a>
     <div class="hright">
-      <a class="cta-btn" id="headerEnquire" href="#">Enquire</a>
+      <a class="enq" id="hEnq" href="#">Enquire</a>
     </div>
   </div>
 </header>
 
-<section class="hero" id="top">
+<section class="hero">
   <p class="hero-eye">New York · Curated Timepieces</p>
-  <h1 class="hero-h1">Shop All<br><em>Watches</em></h1>
+  <h1 class="hero-h">Shop All<br><em>Watches</em></h1>
   <p class="hero-p">A hand-picked selection of fine and pre-owned watches. Every piece verified, every detail documented.</p>
-  <div class="hero-actions">
-    <a class="btn-dark" href="#shop">View Collection</a>
-    <a class="btn-out"  id="heroEnquire" href="#">Get in Touch</a>
+  <div class="hero-btns">
+    <a class="btn-bk" href="#shop">View Collection</a>
+    <a class="btn-bd" id="hEnq2" href="#">Get in Touch</a>
   </div>
 </section>
 
-<div class="fbar-wrap" id="shop">
+<div class="fwrap" id="shop">
   <div class="fbar">
     <span class="fcount" id="fcount"></span>
     <div class="ftabs">
@@ -187,21 +175,20 @@ footer{background:var(--off);border-top:1px solid var(--border);padding:40px 28p
 
 <section class="about" id="about">
   <h2>Every Watch<br>Has a <em>Story</em></h2>
-  <p>Each piece in our collection is personally sourced and verified. We deal in watches we believe in — nothing more, nothing less.</p>
-  <a id="aboutEnquire" href="#">Start a Conversation</a>
+  <p>Each piece is personally sourced and verified. We deal in watches we believe in — nothing more, nothing less.</p>
+  <a id="aEnq" href="#">Start a Conversation</a>
 </section>
 
 <footer id="footer">
-  <div class="footer-in">
+  <div class="fi">
     <div class="fbrand">Nitzani Tradings</div>
-    <div class="fcopy">Interested? <a id="footerEmail" href="#">Contact us</a></div>
+    <div class="finfo">Questions? <a id="fEnq" href="#">Contact us</a></div>
   </div>
 </footer>
 
-<!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <button class="mclose" id="mClose">✕</button>
+    <button class="mcls" id="mClose">✕</button>
     <div class="mimg">
       <div class="mimg-ph" id="mPh">NITZANI</div>
       <img id="mImg" src="" alt="" style="display:none">
@@ -221,18 +208,17 @@ footer{background:var(--off);border-top:1px solid var(--border);padding:40px 28p
 
 <script>
 const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycby3vhoNCQnbZkgp4ORRvl5fEtHIuvMOkNg-6YPPSYxqp3LnlBXtnkEH1tgmdsHr7KJYrQ/exec';
-const CONTACT_EMAIL = 'PASTE_YOUR_EMAIL_HERE';
+const EMAIL         = 'PASTE_YOUR_EMAIL_HERE';
 
-// Wire contact links
-['headerEnquire','heroEnquire','aboutEnquire','footerEmail'].forEach(id => {
+['hEnq','hEnq2','aEnq','fEnq'].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.href = 'mailto:' + CONTACT_EMAIL;
+  if (el) el.href = 'mailto:' + EMAIL;
 });
 
 let all = [], filter = 'all', query = '';
 
 async function load() {
-  document.getElementById('gridWrap').innerHTML = '<div class="state"><div class="spin"></div><p>Loading collection…</p></div>';
+  document.getElementById('gridWrap').innerHTML = '<div class="state"><div class="spin"></div><p>Loading…</p></div>';
   try {
     const j = await (await fetch(SCRIPT_URL + '?action=getInventory')).json();
     all = j.watches || [];
@@ -256,7 +242,7 @@ function render() {
   window._L = list;
 
   if (!list.length) {
-    document.getElementById('gridWrap').innerHTML = '<div class="state"><h2>No Results</h2><p>Try a different filter or search term.</p></div>';
+    document.getElementById('gridWrap').innerHTML = '<div class="state"><h2>No Results</h2><p>Try a different filter or search.</p></div>';
     return;
   }
 
@@ -268,8 +254,8 @@ function render() {
           ${w.Image
             ? `<img src="${w.Image}" alt="${w.Name||''}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=cimg-ph>NITZANI</div>'">`
             : '<div class="cimg-ph">NITZANI</div>'}
-          ${sold ? '<span class="cbadge cbadge-sold">Sold</span>' : ''}
-          <div class="cview">Quick View</div>
+          ${sold ? '<div class="sold-tag">Sold</div>' : ''}
+          <div class="qv">Quick View</div>
         </div>
         <div class="cbody">
           <div class="cbrand">${w.Brand||'—'}</div>
@@ -284,13 +270,13 @@ function render() {
 function openM(i) {
   const w = window._L[i];
   const sold = String(w.Available).toLowerCase() === 'sold';
-  document.getElementById('mBadge').textContent  = sold ? 'Sold' : 'Available';
-  document.getElementById('mBrand').textContent  = w.Brand || '';
-  document.getElementById('mName').textContent   = w.Name  || 'Untitled';
-  document.getElementById('mMeta').textContent   = [w.Condition, w.Year].filter(Boolean).join(' · ');
-  document.getElementById('mDesc').textContent   = w.Description || 'Contact us for more details about this piece.';
-  document.getElementById('mRef').textContent    = w.Reference ? 'Ref. ' + w.Reference : '';
-  document.getElementById('mPrice').textContent  = w.Price || 'POA';
+  document.getElementById('mBadge').textContent = sold ? 'Sold' : 'Available';
+  document.getElementById('mBrand').textContent = w.Brand || '';
+  document.getElementById('mName').textContent  = w.Name  || 'Untitled';
+  document.getElementById('mMeta').textContent  = [w.Condition, w.Year].filter(Boolean).join(' · ');
+  document.getElementById('mDesc').textContent  = w.Description || 'Contact us for full details on this piece.';
+  document.getElementById('mRef').textContent   = w.Reference ? 'Ref. ' + w.Reference : '';
+  document.getElementById('mPrice').textContent = w.Price || 'POA';
   const img = document.getElementById('mImg');
   const ph  = document.getElementById('mPh');
   if (w.Image) { img.src = w.Image; img.style.display = 'block'; ph.style.display = 'none'; }
@@ -303,8 +289,8 @@ function openM(i) {
     cta.textContent = 'Enquire About This Watch';
     cta.className = 'mcta';
     const s = encodeURIComponent('Enquiry: ' + (w.Brand||'') + ' ' + (w.Name||''));
-    const b = encodeURIComponent('Hi,\n\nI\'m interested in the ' + (w.Brand||'') + ' ' + (w.Name||'') + ' listed at ' + (w.Price||'') + '.\n\nIs it available?\n\nThank you');
-    cta.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + s + '&body=' + b;
+    const b = encodeURIComponent('Hi,\n\nI\'m interested in the ' + (w.Brand||'') + ' ' + (w.Name||'') + ' at ' + (w.Price||'') + '.\n\nIs it available?\n\nThank you');
+    cta.href = 'mailto:' + EMAIL + '?subject=' + s + '&body=' + b;
     cta.onclick = null;
   }
   document.getElementById('overlay').classList.add('open');
