@@ -3,211 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Watch Room · Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Nitzani · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#f7f7f5;--white:#fff;--ink:#111;--mid:#888;
-  --light:#e8e8e5;--lighter:#f0f0ed;--border:#e2e2de;
-  --green:#22c55e;--red:#ef4444;--r:14px;
-  --sh:0 2px 12px rgba(0,0,0,.07);
+  --bg:#f4f4f2;--white:#fff;--ink:#111;--mid:#888;
+  --lt:#e6e6e2;--ltr:#f0f0ec;--bd:#e0e0dc;
+  --grn:#16a34a;--red:#dc2626;--r:14px;
+  --sh:0 1px 8px rgba(0,0,0,.08);
 }
-html,body{height:100%}
-body{background:var(--bg);font-family:'Inter',sans-serif;font-weight:400;color:var(--ink);font-size:16px;line-height:1.5}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--ink);font-size:16px;-webkit-font-smoothing:antialiased}
 
-/* TOP BAR */
-.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.topbar-left{display:flex;align-items:center;gap:8px}
-.topbar-title{font-size:15px;font-weight:600;letter-spacing:-.01em}
-.conn-dot{width:8px;height:8px;border-radius:50%;background:var(--light);flex-shrink:0;transition:background .3s}
-.conn-dot.on{background:var(--green)}
-.settings-btn{width:36px;height:36px;border-radius:10px;background:var(--lighter);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:background .15s}
-.settings-btn:hover{background:var(--light)}
+/* ─── TOP BAR ─── */
+.bar{height:52px;background:var(--white);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 16px;justify-content:space-between;position:relative;z-index:50}
+.bar-title{font-size:15px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--grn);flex-shrink:0}
+.gear{width:34px;height:34px;border-radius:10px;background:var(--ltr);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
 
-/* SCROLL + TABS */
-.scroll{overflow-y:auto;height:calc(100vh - 56px)}
-.view-tabs{display:flex;gap:4px;padding:16px 16px 0;max-width:600px;margin:0 auto}
-.vtab{flex:1;padding:10px 0;text-align:center;font-size:14px;font-weight:500;border:none;background:transparent;color:var(--mid);cursor:pointer;border-bottom:2px solid transparent;transition:.15s}
-.vtab.on{color:var(--ink);border-bottom-color:var(--ink)}
-.view{display:none}.view.on{display:block}
+/* ─── TABS ─── */
+.tabs{display:flex;background:var(--white);border-bottom:1px solid var(--bd)}
+.tab{flex:1;padding:13px 0;text-align:center;font-size:14px;font-weight:500;border:none;background:transparent;color:var(--mid);cursor:pointer;border-bottom:2px solid transparent;transition:.15s;font-family:'Inter',sans-serif}
+.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
 
-/* FORM */
-.form-wrap{max-width:600px;margin:0 auto;padding:16px 16px 100px;display:flex;flex-direction:column;gap:10px}
+/* ─── VIEWS ─── */
+.views{height:calc(100vh - 52px - 48px);overflow:hidden;position:relative}
+.view{position:absolute;inset:0;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch}
+.view.on{display:block}
 
-/* PHOTO */
-.photo-card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;position:relative;cursor:pointer}
-.photo-card input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2}
-.photo-empty{padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
-.photo-icon{width:56px;height:56px;border-radius:16px;background:var(--lighter);display:flex;align-items:center;justify-content:center;font-size:24px}
-.photo-label{font-size:15px;font-weight:500}
+/* ─── FORM ─── */
+.form-scroll{padding:14px 14px 120px;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+
+/* Photo */
+.photo-box{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;position:relative;cursor:pointer;min-height:120px}
+.photo-box input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2}
+.photo-empty{padding:32px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.photo-ico{width:52px;height:52px;border-radius:14px;background:var(--ltr);display:flex;align-items:center;justify-content:center;font-size:22px}
+.photo-lbl{font-size:15px;font-weight:500}
 .photo-sub{font-size:13px;color:var(--mid)}
-.photo-preview-img{display:none;width:100%;aspect-ratio:1;object-fit:cover}
-.photo-bar{display:none;padding:12px 16px;align-items:center;justify-content:space-between;border-top:1px solid var(--border)}
+.photo-img{display:none;width:100%;max-height:280px;object-fit:cover}
+.photo-bar{display:none;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid var(--bd)}
 .photo-bar.show{display:flex}
-.change-btn{font-size:13px;font-weight:500;color:var(--mid);background:none;border:none;cursor:pointer;padding:4px 0;z-index:3;position:relative}
-.change-btn:hover{color:var(--ink)}
+.photo-change{font-size:13px;font-weight:500;color:var(--mid);background:none;border:none;cursor:pointer;z-index:3;position:relative}
+.prog-wrap{display:none;padding:10px 16px 12px;border-top:1px solid var(--bd)}
+.prog-wrap.show{display:block}
+.prog-track{height:3px;background:var(--lt);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--ink);width:0;transition:width .3s;border-radius:2px}
+.prog-lbl{font-size:12px;color:var(--mid);margin-top:4px}
 
-/* UPLOAD PROGRESS */
-.up-prog{display:none;padding:10px 16px 12px;border-top:1px solid var(--border)}
-.up-prog.show{display:block}
-.prog-bg{height:3px;background:var(--lighter);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:var(--ink);border-radius:2px;transition:width .3s;width:0}
-.prog-lbl{font-size:12px;color:var(--mid);margin-top:5px}
-
-/* CARDS + FIELDS */
-.card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+/* Fields */
+.fcard{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.frow{display:grid;grid-template-columns:1fr 1fr}
+.frow .field:first-child{border-right:1px solid var(--bd)}
 .field{display:flex;flex-direction:column}
-.field-row{display:grid;grid-template-columns:1fr 1fr}
-.field-row .field:first-child{border-right:1px solid var(--border)}
-.flbl{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);padding:14px 16px 0}
-.field input,.field textarea,.field select{font-family:'Inter',sans-serif;font-size:16px;font-weight:400;color:var(--ink);background:transparent;border:none;outline:none;padding:6px 16px 14px;width:100%;-webkit-appearance:none;appearance:none}
-.field input::placeholder,.field textarea::placeholder{color:#ccc}
-.field textarea{resize:none;min-height:90px;line-height:1.55}
-.field select{cursor:pointer}
-.fdiv{height:1px;background:var(--border);margin:0 16px}
+.flabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);padding:13px 14px 0}
+.field input,.field textarea,.field select{font-family:'Inter',sans-serif;font-size:16px;color:var(--ink);background:transparent;border:none;outline:none;padding:5px 14px 13px;width:100%;-webkit-appearance:none;appearance:none}
+.field input::placeholder,.field textarea::placeholder{color:#c8c8c4}
+.field textarea{resize:none;min-height:84px;line-height:1.55}
+.fdiv{height:1px;background:var(--bd);margin:0 14px}
 
-/* AVAILABILITY */
-.avail-wrap{padding:14px 16px;display:flex;gap:8px}
-.avail-btn{flex:1;padding:13px 0;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--border);background:transparent;color:var(--mid);border-radius:10px;cursor:pointer;transition:.15s;-webkit-appearance:none}
-.avail-btn.on-yes{border-color:var(--green);background:#f0fdf4;color:#16a34a}
-.avail-btn.on-sold{border-color:var(--red);background:#fef2f2;color:#dc2626}
+/* Availability */
+.avail{padding:13px 14px;display:flex;gap:8px}
+.av-btn{flex:1;padding:12px 0;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--bd);background:transparent;color:var(--mid);border-radius:10px;cursor:pointer;transition:.15s}
+.av-btn.yes{border-color:var(--grn);background:#f0fdf4;color:var(--grn)}
+.av-btn.sold{border-color:var(--red);background:#fef2f2;color:var(--red)}
 
-/* BUTTONS */
-.add-btn{width:100%;padding:17px;background:var(--ink);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;border:none;border-radius:var(--r);cursor:pointer;letter-spacing:-.01em;transition:opacity .15s,transform .1s;box-shadow:var(--sh)}
-.add-btn:active{transform:scale(.98);opacity:.9}
-.add-btn:disabled{opacity:.4;cursor:not-allowed}
-.cancel-btn{width:100%;padding:14px;background:transparent;color:var(--mid);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer}
+/* Submit */
+.submit{width:100%;padding:16px;background:var(--ink);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;border:none;border-radius:var(--r);cursor:pointer;box-shadow:var(--sh);transition:opacity .15s}
+.submit:disabled{opacity:.35;cursor:not-allowed}
+.cancel{width:100%;padding:13px;background:transparent;color:var(--mid);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--bd);border-radius:var(--r);cursor:pointer}
 
-/* INVENTORY */
-.inv-wrap{max-width:600px;margin:0 auto;padding:16px 16px 100px}
-.inv-count{font-size:13px;color:var(--mid);margin-bottom:12px}
+/* ─── INVENTORY ─── */
+.inv-scroll{padding:12px 14px 120px;max-width:560px;margin:0 auto}
+.inv-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.inv-seg{display:flex;background:var(--ltr);border-radius:10px;padding:3px;gap:2px}
+.seg-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:6px 14px;border:none;background:transparent;color:var(--mid);border-radius:8px;cursor:pointer;transition:.12s;white-space:nowrap}
+.seg-btn.on{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.inv-count{font-size:12px;color:var(--mid);margin-left:auto}
 .inv-list{display:flex;flex-direction:column;gap:2px}
-.inv-item{background:var(--white);border-radius:4px;display:flex;align-items:center;gap:14px;padding:12px 14px;box-shadow:var(--sh)}
-.inv-item:first-child{border-radius:12px 12px 4px 4px}
-.inv-item:last-child{border-radius:4px 4px 12px 12px}
-.inv-item:only-child{border-radius:12px}
-.inv-thumb{width:54px;height:54px;border-radius:10px;object-fit:cover;background:var(--lighter);flex-shrink:0}
-.inv-ph{width:54px;height:54px;border-radius:10px;background:var(--lighter);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+
+/* Swipe row */
+.sw-row{position:relative;border-radius:4px;overflow:hidden;background:var(--red)}
+.sw-row:first-child{border-radius:12px 12px 4px 4px}
+.sw-row:last-child{border-radius:4px 4px 12px 12px}
+.sw-row:only-child{border-radius:12px}
+/* Delete bg */
+.sw-del-bg{position:absolute;right:0;top:0;bottom:0;width:80px;display:flex;align-items:center;justify-content:center;background:var(--red);cursor:pointer;user-select:none}
+.sw-del-bg svg{width:22px;height:22px;color:#fff;flex-shrink:0}
+/* Foreground item */
+.inv-item{position:relative;background:var(--white);display:flex;align-items:center;gap:12px;padding:11px 13px;touch-action:pan-y;user-select:none;transition:transform .25s cubic-bezier(.25,.46,.45,.94);will-change:transform;cursor:pointer;z-index:1}
+.inv-item.swiped{transform:translateX(-80px)}
+.inv-thumb{width:50px;height:50px;border-radius:10px;object-fit:cover;background:var(--ltr);flex-shrink:0}
+.inv-ph{width:50px;height:50px;border-radius:10px;background:var(--ltr);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
 .inv-info{flex:1;min-width:0}
 .inv-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.inv-sub{font-size:13px;color:var(--mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.inv-sub{font-size:12px;color:var(--mid);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-price{font-size:13px;font-weight:600;margin-top:2px}
 .inv-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.sdot{width:8px;height:8px;border-radius:50%}
-.sdot.y{background:var(--green)}.sdot.n{background:var(--red)}
-.inv-btn{width:34px;height:34px;border-radius:9px;background:var(--lighter);border:none;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:background .15s}
-.inv-btn:hover{background:var(--light)}
-.inv-btn.del:hover{background:#fef2f2}
-.inv-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
-.inv-ftabs{display:flex;gap:2px;background:var(--lighter);border-radius:10px;padding:3px}
-.inv-ftab{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:6px 12px;border:none;background:transparent;color:var(--mid);border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
-.inv-ftab.on{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.inv-empty{text-align:center;padding:60px 20px;color:var(--mid);font-size:15px;line-height:1.7}
-.inv-empty-icon{font-size:36px;margin-bottom:12px}
-.loading-wrap{display:flex;align-items:center;justify-content:center;gap:10px;padding:60px 20px;color:var(--mid);font-size:14px}
-.spin{width:20px;height:20px;border:2px solid var(--light);border-top-color:var(--ink);border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sdot.g{background:var(--grn)}.sdot.r{background:var(--red)}
+.edit-btn{width:32px;height:32px;border-radius:9px;background:var(--ltr);border:none;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;flex-shrink:0}
 
-/* SETTINGS DRAWER */
-.drw-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.4);backdrop-filter:blur(4px)}
-.drw-overlay.open{display:block}
-.drw{position:fixed;bottom:0;left:0;right:0;z-index:501;background:var(--white);border-radius:20px 20px 0 0;padding:0 0 calc(env(safe-area-inset-bottom,0px) + 16px);max-width:600px;margin:0 auto;animation:slideUp .25s ease;max-height:85vh;overflow-y:auto}
+.inv-empty{text-align:center;padding:56px 20px;color:var(--mid);font-size:15px;line-height:1.7}
+.inv-empty-ico{font-size:34px;margin-bottom:10px}
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:56px 20px;color:var(--mid);font-size:14px}
+.spin{width:18px;height:18px;border:2px solid var(--lt);border-top-color:var(--ink);border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ─── SETTINGS DRAWER ─── */
+.drw-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.4);backdrop-filter:blur(3px)}
+.drw-bg.open{display:block}
+.drw{position:fixed;bottom:0;left:0;right:0;z-index:201;background:var(--white);border-radius:20px 20px 0 0;max-height:80vh;overflow-y:auto;animation:slideUp .22s ease;max-width:560px;margin:0 auto}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
-.drw-handle{width:36px;height:4px;background:var(--light);border-radius:2px;margin:12px auto 0}
-.drw-hdr{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between}
-.drw-title{font-size:17px;font-weight:600}
-.drw-close{width:30px;height:30px;border-radius:50%;background:var(--lighter);border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
-.drw-body{padding:8px 20px 20px;display:flex;flex-direction:column;gap:16px}
-.set-lbl{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
-.set-in{font-family:'Inter',sans-serif;font-size:15px;width:100%;padding:13px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;outline:none;color:var(--ink);transition:border-color .15s;-webkit-appearance:none}
-.set-in:focus{border-color:var(--ink)}
-.set-in::placeholder{color:#ccc}
-.drw-save{width:100%;padding:15px;background:var(--ink);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;border:none;border-radius:12px;cursor:pointer}
-.drw-steps{background:var(--bg);border-radius:12px;padding:16px}
-.drw-steps-title{font-size:13px;font-weight:600;margin-bottom:10px}
-ol.dsteps{list-style:none;counter-reset:ds;display:flex;flex-direction:column;gap:8px}
-ol.dsteps li{counter-increment:ds;display:flex;gap:10px;font-size:13px;color:#444;line-height:1.5}
-ol.dsteps li::before{content:counter(ds);min-width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.copy-btn{width:100%;padding:13px;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:background .15s}
-.copy-btn:hover{background:var(--lighter)}
+.drw-handle{width:34px;height:4px;background:var(--lt);border-radius:2px;margin:12px auto 0}
+.drw-head{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between}
+.drw-head h2{font-size:17px;font-weight:600}
+.drw-x{width:28px;height:28px;border-radius:50%;background:var(--ltr);border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.drw-body{padding:6px 18px 28px;display:flex;flex-direction:column;gap:14px}
+.dlabel{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+.dinput{font-family:'Inter',sans-serif;font-size:15px;width:100%;padding:12px 13px;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;outline:none;color:var(--ink);-webkit-appearance:none}
+.dinput:focus{border-color:var(--ink)}
+.dinput::placeholder{color:#c8c8c4}
+.dsave{width:100%;padding:14px;background:var(--ink);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;border:none;border-radius:12px;cursor:pointer}
 
-/* CONFIRM SHEET */
-.conf-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center}
-.conf-overlay.open{display:flex}
-.conf-sheet{background:var(--white);border-radius:20px 20px 0 0;padding:28px 20px calc(20px + env(safe-area-inset-bottom,0px));width:100%;max-width:600px;animation:slideUp .2s ease}
-.conf-sheet h3{font-size:17px;font-weight:700;margin-bottom:6px}
-.conf-sheet p{font-size:14px;color:var(--mid);margin-bottom:24px;line-height:1.5}
-.conf-btns{display:flex;flex-direction:column;gap:8px}
-.conf-del{padding:15px;background:#ef4444;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;border:none;border-radius:12px;cursor:pointer}
-.conf-cancel{padding:15px;background:var(--lighter);color:var(--ink);font-family:'Inter',sans-serif;font-size:15px;font-weight:500;border:none;border-radius:12px;cursor:pointer}
-
-/* TOAST */
-.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:30px;font-size:14px;font-weight:500;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:28px;font-size:14px;font-weight:500;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-left">
-    <div class="conn-dot on" id="connDot"></div>
-    <span class="topbar-title">Watch Room</span>
-  </div>
-  <button class="settings-btn" onclick="openSettings()">⚙️</button>
+<!-- TOP BAR -->
+<div class="bar">
+  <div class="bar-title"><div class="dot"></div>Nitzani Admin</div>
+  <button class="gear" onclick="openSettings()">⚙️</button>
 </div>
 
-<div class="scroll">
-  <div class="view-tabs">
-    <button class="vtab on" id="tabAdd" onclick="switchTab('add')">+ Add Watch</button>
-    <button class="vtab"    id="tabInv" onclick="switchTab('inv')">Inventory</button>
-  </div>
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" id="tabAdd" onclick="switchTab('add')">＋ Add Watch</button>
+  <button class="tab"    id="tabInv" onclick="switchTab('inv')">Inventory</button>
+</div>
+
+<div class="views">
 
   <!-- ADD FORM -->
   <div class="view on" id="viewAdd">
-    <div class="form-wrap">
+    <div class="form-scroll">
 
-      <!-- PHOTO -->
-      <div class="photo-card" id="photoCard">
+      <!-- Photo -->
+      <div class="photo-box" id="photoBox">
         <input type="file" id="fileIn" accept="image/*">
         <div class="photo-empty" id="photoEmpty">
-          <div class="photo-icon">📷</div>
-          <div class="photo-label">Add Photo</div>
-          <div class="photo-sub">Tap to take or upload · JPG, PNG, HEIC</div>
+          <div class="photo-ico">📷</div>
+          <div class="photo-lbl">Add Photo</div>
+          <div class="photo-sub">Tap or drag · JPG, PNG, HEIC</div>
         </div>
-        <img class="photo-preview-img" id="photoImg" alt="">
+        <img class="photo-img" id="photoImg" alt="">
         <div class="photo-bar" id="photoBar">
-          <span style="font-size:13px;color:#888">Photo ready ✓</span>
-          <button class="change-btn" id="changeBtn" type="button">Change</button>
+          <span style="font-size:13px;color:var(--mid)">Photo ready ✓</span>
+          <button class="photo-change" id="changeBtn" type="button">Change</button>
         </div>
-        <div class="up-prog" id="upProg">
-          <div class="prog-bg"><div class="prog-fill" id="progFill"></div></div>
+        <div class="prog-wrap" id="progWrap">
+          <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
           <div class="prog-lbl" id="progLbl">Uploading…</div>
         </div>
       </div>
 
-      <!-- NAME + BRAND -->
-      <div class="card">
+      <!-- Name + Brand -->
+      <div class="fcard">
         <div class="field">
-          <div class="flbl">Watch Name *</div>
-          <input id="fName" type="text" placeholder="e.g. Submariner Date" autocomplete="off">
+          <div class="flabel">Watch Name *</div>
+          <input id="fName" placeholder="e.g. Submariner Date" autocomplete="off">
         </div>
         <div class="fdiv"></div>
         <div class="field">
-          <div class="flbl">Brand *</div>
-          <input id="fBrand" type="text" placeholder="e.g. Rolex" autocomplete="off">
+          <div class="flabel">Brand *</div>
+          <input id="fBrand" placeholder="e.g. Rolex" autocomplete="off">
         </div>
       </div>
 
-      <!-- PRICE + CONDITION -->
-      <div class="card">
-        <div class="field-row">
+      <!-- Price + Condition -->
+      <div class="fcard">
+        <div class="frow">
           <div class="field">
-            <div class="flbl">Price *</div>
-            <input id="fPrice" type="text" placeholder="$12,500" autocomplete="off">
+            <div class="flabel">Price *</div>
+            <input id="fPrice" placeholder="$12,500" autocomplete="off">
           </div>
           <div class="field">
-            <div class="flbl">Condition</div>
+            <div class="flabel">Condition</div>
             <select id="fCond">
               <option value="">—</option>
               <option>Mint</option><option>Excellent</option>
@@ -216,159 +201,148 @@ ol.dsteps li::before{content:counter(ds);min-width:22px;height:22px;border-radiu
           </div>
         </div>
         <div class="fdiv"></div>
-        <div class="field-row">
+        <div class="frow">
           <div class="field">
-            <div class="flbl">Reference</div>
-            <input id="fRef" type="text" placeholder="116610LN" autocomplete="off">
+            <div class="flabel">Reference</div>
+            <input id="fRef" placeholder="116610LN" autocomplete="off">
           </div>
           <div class="field">
-            <div class="flbl">Year</div>
-            <input id="fYear" type="number" placeholder="2020" autocomplete="off">
+            <div class="flabel">Year</div>
+            <input id="fYear" type="number" placeholder="2021" autocomplete="off">
           </div>
         </div>
       </div>
 
-      <!-- DESCRIPTION -->
-      <div class="card">
+      <!-- Description -->
+      <div class="fcard">
         <div class="field">
-          <div class="flbl">Description</div>
+          <div class="flabel">Description</div>
           <textarea id="fDesc" placeholder="Box & papers, service history, bracelet condition…"></textarea>
         </div>
       </div>
 
-      <!-- AVAILABILITY -->
-      <div class="card">
-        <div class="avail-wrap">
-          <button class="avail-btn on-yes" id="btnYes"  type="button" onclick="setAvail('Yes')">Available</button>
-          <button class="avail-btn"        id="btnSold" type="button" onclick="setAvail('Sold')">Sold</button>
+      <!-- Availability -->
+      <div class="fcard">
+        <div class="avail">
+          <button class="av-btn yes" id="btnYes"  type="button" onclick="setAvail('Yes')">Available</button>
+          <button class="av-btn"     id="btnSold" type="button" onclick="setAvail('Sold')">Sold</button>
         </div>
       </div>
 
-      <button class="add-btn"    id="addBtn"    onclick="submitWatch()">Add to Inventory</button>
-      <button class="cancel-btn" id="cancelBtn" onclick="cancelEdit()" style="display:none">Cancel</button>
+      <button class="submit" id="submitBtn" onclick="submitWatch()">Add to Inventory</button>
+      <button class="cancel" id="cancelBtn" onclick="cancelEdit()" style="display:none">Cancel</button>
     </div>
   </div>
 
   <!-- INVENTORY -->
   <div class="view" id="viewInv">
-    <div class="inv-wrap">
+    <div class="inv-scroll">
       <div class="inv-toolbar">
-        <div class="inv-count" id="invCount"></div>
-        <div class="inv-ftabs">
-          <button class="inv-ftab on" data-inv-f="all"       onclick="setInvFilter(this)">All</button>
-          <button class="inv-ftab"    data-inv-f="available" onclick="setInvFilter(this)">Available</button>
-          <button class="inv-ftab"    data-inv-f="sold"      onclick="setInvFilter(this)">Sold</button>
+        <div class="inv-seg">
+          <button class="seg-btn on" data-f="all"       onclick="setFilter(this)">All</button>
+          <button class="seg-btn"    data-f="available" onclick="setFilter(this)">Available</button>
+          <button class="seg-btn"    data-f="sold"      onclick="setFilter(this)">Sold</button>
         </div>
+        <span class="inv-count" id="invCount"></span>
       </div>
-      <div id="invList"><div class="loading-wrap"><div class="spin"></div> Loading…</div></div>
+      <div id="invList"><div class="loading"><div class="spin"></div> Loading…</div></div>
     </div>
   </div>
+
 </div>
 
 <!-- SETTINGS DRAWER -->
-<div class="drw-overlay" id="drwOverlay" onclick="closeSettings()"></div>
+<div class="drw-bg" id="drwBg" onclick="closeSettings()"></div>
 <div class="drw" id="drw" style="display:none">
   <div class="drw-handle"></div>
-  <div class="drw-hdr">
-    <span class="drw-title">Settings</span>
-    <button class="drw-close" onclick="closeSettings()">✕</button>
+  <div class="drw-head">
+    <h2>Settings</h2>
+    <button class="drw-x" onclick="closeSettings()">✕</button>
   </div>
   <div class="drw-body">
     <div>
-      <div class="set-lbl">Apps Script URL</div>
-      <input class="set-in" id="cfgUrl" type="url" placeholder="https://script.google.com/…">
+      <div class="dlabel">Apps Script URL</div>
+      <input class="dinput" id="cfgUrl" type="url" placeholder="https://script.google.com/…">
     </div>
-    <button class="drw-save" onclick="saveConfig()">Save & Connect</button>
-    <div class="drw-steps">
-      <div class="drw-steps-title">First-time setup (already done if you're seeing inventory)</div>
-      <ol class="dsteps">
-        <li>Create a Google Sheet — copy its ID from the URL</li>
-        <li>Go to <a href="https://script.google.com" target="_blank" style="color:inherit;font-weight:600">script.google.com</a> → New Project</li>
-        <li>Tap Copy Script, paste it (replace all), update Sheet ID on line 10</li>
-        <li>Deploy → New Deployment → Web App · Execute as: Me · Access: Anyone</li>
-        <li>Copy the Web App URL, paste it above</li>
-      </ol>
-    </div>
-    <button class="copy-btn" onclick="copyScript()">📋 Copy Apps Script Code</button>
-  </div>
-</div>
-
-<!-- CONFIRM DELETE -->
-<div class="conf-overlay" id="confOverlay">
-  <div class="conf-sheet">
-    <h3>Delete this watch?</h3>
-    <p id="confMsg">This will remove it permanently.</p>
-    <div class="conf-btns">
-      <button class="conf-del"    id="confDelBtn">Yes, Delete</button>
-      <button class="conf-cancel" onclick="closeConfirm()">Cancel</button>
-    </div>
+    <button class="dsave" onclick="saveConfig()">Save & Connect</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const URL_KEY       = 'wr_admin_url';
-const HARDCODED_URL = 'https://script.google.com/macros/s/AKfycby3vhoNCQnbZkgp4ORRvl5fEtHIuvMOkNg-6YPPSYxqp3LnlBXtnkEH1tgmdsHr7KJYrQ/exec';
-let cfg   = { url: localStorage.getItem(URL_KEY) || HARDCODED_URL };
-let avail = 'Yes', selFile = null, upUrl = '', editId = '';
+// ─── CONFIG ───────────────────────────────────────────────
+const BAKED_URL = 'https://script.google.com/macros/s/AKfycby3vhoNCQnbZkgp4ORRvl5fEtHIuvMOkNg-6YPPSYxqp3LnlBXtnkEH1tgmdsHr7KJYrQ/exec';
+let scriptUrl = localStorage.getItem('nz_url') || BAKED_URL;
 
+// ─── STATE ────────────────────────────────────────────────
+let avail = 'Yes', selFile = null, upUrl = '', editId = '';
+let allWatches = [], invFilter = 'all';
+let activeSwipeRow = null; // track which row is swiped open
+
+// ─── BOOT ─────────────────────────────────────────────────
 window.onload = () => {
-  document.getElementById('cfgUrl').value = cfg.url;
-  updateDot();
+  document.getElementById('cfgUrl').value = scriptUrl;
   loadInventory();
 };
 
-function updateDot() {
-  document.getElementById('connDot').className = 'conn-dot' + (cfg.url ? ' on' : '');
-}
-
-// TABS
+// ─── TABS ─────────────────────────────────────────────────
 function switchTab(t) {
-  ['add','inv'].forEach(x => {
-    document.getElementById('view'+x[0].toUpperCase()+x.slice(1)).classList.toggle('on', x===t);
-    document.getElementById('tab'+x[0].toUpperCase()+x.slice(1)).classList.toggle('on', x===t);
-  });
-  if (t==='inv') loadInventory();
+  document.getElementById('viewAdd').classList.toggle('on', t === 'add');
+  document.getElementById('viewInv').classList.toggle('on', t === 'inv');
+  document.getElementById('tabAdd').classList.toggle('on', t === 'add');
+  document.getElementById('tabInv').classList.toggle('on', t === 'inv');
+  if (t === 'inv') loadInventory();
 }
 
-// SETTINGS
+// ─── SETTINGS ─────────────────────────────────────────────
 function openSettings() {
-  document.getElementById('drwOverlay').classList.add('open');
-  const d = document.getElementById('drw');
-  d.style.display = 'block';
+  document.getElementById('drwBg').classList.add('open');
+  document.getElementById('drw').style.display = 'block';
 }
 function closeSettings() {
-  document.getElementById('drwOverlay').classList.remove('open');
+  document.getElementById('drwBg').classList.remove('open');
   document.getElementById('drw').style.display = 'none';
 }
 function saveConfig() {
-  cfg.url = document.getElementById('cfgUrl').value.trim();
-  localStorage.setItem(URL_KEY, cfg.url);
-  updateDot();
+  scriptUrl = document.getElementById('cfgUrl').value.trim();
+  localStorage.setItem('nz_url', scriptUrl);
   closeSettings();
-  toast('Saved ✓');
-  if (cfg.url) loadInventory();
+  toast('Connected ✓');
+  loadInventory();
 }
 
-// AVAILABILITY
+// ─── AVAILABILITY ──────────────────────────────────────────
 function setAvail(v) {
   avail = v;
-  document.getElementById('btnYes').className  = 'avail-btn'+(v==='Yes'  ? ' on-yes'  : '');
-  document.getElementById('btnSold').className = 'avail-btn'+(v==='Sold' ? ' on-sold' : '');
+  document.getElementById('btnYes').className  = 'av-btn' + (v === 'Yes'  ? ' yes'  : '');
+  document.getElementById('btnSold').className = 'av-btn' + (v === 'Sold' ? ' sold' : '');
 }
 
-// PHOTO
+// ─── PHOTO ────────────────────────────────────────────────
 const fileIn = document.getElementById('fileIn');
 fileIn.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
-document.getElementById('changeBtn').addEventListener('click', e => { e.stopPropagation(); fileIn.value=''; fileIn.click(); });
+document.getElementById('changeBtn').addEventListener('click', e => {
+  e.stopPropagation(); fileIn.value = ''; fileIn.click();
+});
+
+// Drag & drop on desktop
+const photoBox = document.getElementById('photoBox');
+photoBox.addEventListener('dragover', e => { e.preventDefault(); photoBox.style.background = '#e8f5e9'; });
+photoBox.addEventListener('dragleave', () => { photoBox.style.background = ''; });
+photoBox.addEventListener('drop', e => {
+  e.preventDefault(); photoBox.style.background = '';
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) setFile(f);
+});
 
 function setFile(f) {
   selFile = f; upUrl = '';
   const r = new FileReader();
   r.onload = ev => {
     const img = document.getElementById('photoImg');
-    img.src = ev.target.result; img.style.display = 'block';
+    img.src = ev.target.result;
+    img.style.display = 'block';
     document.getElementById('photoEmpty').style.display = 'none';
     document.getElementById('photoBar').classList.add('show');
     fileIn.style.pointerEvents = 'none';
@@ -377,43 +351,46 @@ function setFile(f) {
 }
 
 async function uploadPhoto() {
-  return new Promise((res,rej) => {
+  return new Promise((res, rej) => {
     const r = new FileReader();
     r.onload = async ev => {
       try {
-        const resp = await fetch(cfg.url, { method:'POST', body: JSON.stringify({
-          action:'uploadImage', fileName:selFile.name, mimeType:selFile.type, base64:ev.target.result.split(',')[1]
+        const resp = await fetch(scriptUrl, { method: 'POST', body: JSON.stringify({
+          action: 'uploadImage',
+          fileName: selFile.name,
+          mimeType: selFile.type,
+          base64: ev.target.result.split(',')[1]
         })});
         const j = await resp.json();
-        j.url ? res(j.url) : rej(new Error(j.error||'Upload failed'));
+        j.url ? res(j.url) : rej(new Error(j.error || 'Upload failed'));
       } catch(e) { rej(e); }
     };
     r.readAsDataURL(selFile);
   });
 }
 
-// SUBMIT
+// ─── SUBMIT ───────────────────────────────────────────────
 async function submitWatch() {
-  if (!cfg.url) { openSettings(); return; }
   const name  = document.getElementById('fName').value.trim();
   const brand = document.getElementById('fBrand').value.trim();
   const price = document.getElementById('fPrice').value.trim();
-  if (!name||!brand||!price) { toast('Name, brand & price required'); return; }
+  if (!name || !brand || !price) { toast('Name, brand & price required'); return; }
 
-  const btn = document.getElementById('addBtn');
-  btn.disabled = true; btn.textContent = 'Saving…';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
 
   try {
     if (selFile && !upUrl) {
-      showProg(35,'Uploading photo…');
+      prog(35, 'Uploading photo…');
       upUrl = await uploadPhoto();
-      showProg(100,'Photo ready ✓');
-      setTimeout(hideProg, 700);
+      prog(100, 'Done ✓');
+      setTimeout(hideProgFn, 700);
     }
 
     const payload = {
       action:      editId ? 'updateWatch' : 'addWatch',
-      Name:        name, Brand: brand, Price: price,
+      Name: name, Brand: brand, Price: price,
       Description: document.getElementById('fDesc').value.trim(),
       Condition:   document.getElementById('fCond').value,
       Reference:   document.getElementById('fRef').value.trim(),
@@ -423,159 +400,308 @@ async function submitWatch() {
     if (editId) payload.id    = editId;
     if (upUrl)  payload.Image = upUrl;
 
-    const j = await (await fetch(cfg.url,{method:'POST',body:JSON.stringify(payload)})).json();
-    if (j.success||j.id) {
-      toast(editId ? 'Updated ✓' : 'Added ✓');
+    const j = await post(payload);
+    if (j.success || j.id) {
+      toast(editId ? 'Updated ✓' : 'Watch added ✓');
       resetForm();
       if (editId) switchTab('inv');
-    } else throw new Error(j.error||'Error');
-  } catch(e) { toast('Error: '+e.message); }
-  finally { btn.disabled=false; btn.textContent = editId?'Save Changes':'Add to Inventory'; }
+    } else throw new Error(j.error || 'Unknown error');
+  } catch(e) {
+    toast('Error: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editId ? 'Save Changes' : 'Add to Inventory';
+  }
 }
 
 function resetForm() {
-  editId=''; selFile=null; upUrl='';
-  ['fName','fBrand','fPrice','fDesc','fRef','fYear'].forEach(i=>document.getElementById(i).value='');
-  document.getElementById('fCond').value='';
+  editId = ''; selFile = null; upUrl = '';
+  ['fName','fBrand','fPrice','fDesc','fRef','fYear'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fCond').value = '';
   setAvail('Yes');
-  fileIn.value=''; fileIn.style.pointerEvents='';
-  document.getElementById('photoImg').style.display='none';
-  document.getElementById('photoImg').src='';
-  document.getElementById('photoEmpty').style.display='flex';
+  fileIn.value = ''; fileIn.style.pointerEvents = '';
+  const img = document.getElementById('photoImg');
+  img.style.display = 'none'; img.src = '';
+  document.getElementById('photoEmpty').style.display = 'flex';
   document.getElementById('photoBar').classList.remove('show');
-  hideProg();
-  document.getElementById('addBtn').textContent='Add to Inventory';
-  document.getElementById('cancelBtn').style.display='none';
+  hideProgFn();
+  document.getElementById('submitBtn').textContent = 'Add to Inventory';
+  document.getElementById('cancelBtn').style.display = 'none';
 }
+
 function cancelEdit() { resetForm(); switchTab('inv'); }
 
-// INVENTORY
-async function loadInventory() {
-  if (!cfg.url) { document.getElementById('invList').innerHTML='<div class="inv-empty"><div class="inv-empty-icon">⚙️</div>Open Settings to connect.</div>'; return; }
-  document.getElementById('invList').innerHTML='<div class="loading-wrap"><div class="spin"></div> Loading…</div>';
-  try {
-    const j = await (await fetch(cfg.url+'?action=getInventory')).json();
-    renderInventory(j.watches||[]);
-  } catch(e) { document.getElementById('invList').innerHTML='<div class="inv-empty"><div class="inv-empty-icon">⚠️</div>Check URL in Settings.</div>'; }
-}
-
-let allWatchesCache = [];
-let invFilter = 'all';
-
-function setInvFilter(btn) {
-  document.querySelectorAll('.inv-ftab').forEach(b => b.classList.remove('on'));
+// ─── INVENTORY FILTER ─────────────────────────────────────
+function setFilter(btn) {
+  document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  invFilter = btn.dataset.invF;
-  renderInventory(allWatchesCache);
+  invFilter = btn.dataset.f;
+  renderInventory();
 }
 
-function renderInventory(watches) {
-  allWatchesCache = watches;
-  const filtered = watches.filter(w => {
+// ─── LOAD INVENTORY ───────────────────────────────────────
+async function loadInventory() {
+  document.getElementById('invList').innerHTML = '<div class="loading"><div class="spin"></div> Loading…</div>';
+  try {
+    const j = await (await fetch(scriptUrl + '?action=getInventory')).json();
+    allWatches = (j.watches || []).reverse(); // newest first
+    renderInventory();
+  } catch(e) {
+    document.getElementById('invList').innerHTML = '<div class="inv-empty"><div class="inv-empty-ico">⚠️</div>Couldn\'t load. Check Settings.</div>';
+  }
+}
+
+function renderInventory() {
+  const filtered = allWatches.filter(w => {
     const sold = String(w.Available).toLowerCase() === 'sold';
     if (invFilter === 'available' &&  sold) return false;
     if (invFilter === 'sold'      && !sold) return false;
     return true;
   });
-  const avail = watches.filter(w => String(w.Available).toLowerCase() !== 'sold').length;
-  const soldN  = watches.length - avail;
+
+  const avCount   = allWatches.filter(w => String(w.Available).toLowerCase() !== 'sold').length;
+  const soldCount = allWatches.length - avCount;
   document.getElementById('invCount').textContent =
-    watches.length + ' total · ' + avail + ' available · ' + soldN + ' sold';
+    filtered.length + ' shown · ' + avCount + ' av · ' + soldCount + ' sold';
 
   if (!filtered.length) {
-    const msg = invFilter === 'all' ? 'No watches yet.<br>Add your first one!' : 'No ' + invFilter + ' watches.';
     document.getElementById('invList').innerHTML =
-      '<div class="inv-empty"><div class="inv-empty-icon">⌚</div>' + msg + '</div>';
+      '<div class="inv-empty"><div class="inv-empty-ico">⌚</div>' +
+      (invFilter === 'all' ? 'No watches yet.<br>Add your first one!' : 'No ' + invFilter + ' watches.') + '</div>';
     return;
   }
 
-  document.getElementById('invList').innerHTML =
-    '<div class="inv-list">' + [...filtered].reverse().map(w => {
-      const sold = String(w.Available).toLowerCase() === 'sold';
-      return `<div class="inv-item">
-        ${w.Image
-          ? `<img class="inv-thumb" src="${w.Image}" alt="" onerror="this.outerHTML='<div class=inv-ph>⌚</div>'">`
-          : '<div class="inv-ph">⌚</div>'}
-        <div class="inv-info">
-          <div class="inv-name">${w.Brand||''} ${w.Name||'Untitled'}</div>
-          <div class="inv-sub">${[w.Condition,w.Year].filter(Boolean).join(' · ')||'—'}</div>
-          <div class="inv-price">${w.Price||'—'}</div>
-        </div>
-        <div class="inv-right">
-          <div class="sdot ${sold ? 'n' : 'y'}"></div>
-          <button class="inv-btn"     onclick='startEdit(${JSON.stringify(w)})'>✏️</button>
-          <button class="inv-btn del" onclick='askDelete(${JSON.stringify(w)})'>🗑</button>
-        </div>
+  const listEl = document.createElement('div');
+  listEl.className = 'inv-list';
+
+  filtered.forEach(w => {
+    const sold = String(w.Available).toLowerCase() === 'sold';
+    // Outer row (position: relative, red bg shows behind)
+    const row = document.createElement('div');
+    row.className = 'sw-row';
+
+    // Red delete background
+    const delBg = document.createElement('div');
+    delBg.className = 'sw-del-bg';
+    delBg.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>`;
+    delBg.addEventListener('click', e => { e.stopPropagation(); confirmDelete(w, row); });
+
+    // Foreground item
+    const item = document.createElement('div');
+    item.className = 'inv-item';
+    item.innerHTML = `
+      ${w.Image
+        ? `<img class="inv-thumb" src="${w.Image}" alt="" onerror="this.outerHTML='<div class=inv-ph>⌚</div>'">`
+        : '<div class="inv-ph">⌚</div>'}
+      <div class="inv-info">
+        <div class="inv-name">${(w.Brand || '') + ' ' + (w.Name || 'Untitled')}</div>
+        <div class="inv-sub">${[w.Condition, w.Year].filter(Boolean).join(' · ') || '—'}</div>
+        <div class="inv-price">${w.Price || '—'}</div>
+      </div>
+      <div class="inv-right">
+        <div class="sdot ${sold ? 'r' : 'g'}"></div>
+        <button class="edit-btn" title="Edit">✏️</button>
       </div>`;
-    }).join('') + '</div>';
-}
 
-// EDIT
-function startEdit(w) {
-  editId=w.ID;
-  ['Name','Brand','Price','Description','Condition','Reference','Year'].forEach(k=>{
-    const el=document.getElementById('f'+k); if(el) el.value=w[k]||'';
+    // Edit button
+    item.querySelector('.edit-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      startEdit(w);
+    });
+
+    // Tap item (if not swiped) → edit
+    item.addEventListener('click', () => {
+      if (item.classList.contains('swiped')) {
+        item.classList.remove('swiped');
+        activeSwipeRow = null;
+      } else {
+        startEdit(w);
+      }
+    });
+
+    // ── SWIPE TO DELETE ──────────────────────────────────
+    let startX = 0, startY = 0, isDragging = false, isHorizontal = null;
+
+    item.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = false;
+      isHorizontal = null;
+    }, { passive: true });
+
+    item.addEventListener('touchmove', e => {
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+
+      if (isHorizontal === null) {
+        isHorizontal = Math.abs(dx) > Math.abs(dy);
+      }
+      if (!isHorizontal) return;
+
+      e.preventDefault();
+      isDragging = true;
+
+      const x = Math.max(-90, Math.min(0, dx + (item.classList.contains('swiped') ? -80 : 0)));
+      item.style.transition = 'none';
+      item.style.transform = `translateX(${x}px)`;
+    }, { passive: false });
+
+    item.addEventListener('touchend', e => {
+      if (!isHorizontal) return;
+      item.style.transition = '';
+      const dx = e.changedTouches[0].clientX - startX;
+      const threshold = -40;
+
+      if (dx < threshold) {
+        // Snap open
+        if (activeSwipeRow && activeSwipeRow !== item) {
+          activeSwipeRow.classList.remove('swiped');
+          activeSwipeRow.style.transform = '';
+        }
+        item.classList.add('swiped');
+        item.style.transform = '';
+        activeSwipeRow = item;
+      } else {
+        // Snap closed
+        item.classList.remove('swiped');
+        item.style.transform = '';
+        if (activeSwipeRow === item) activeSwipeRow = null;
+      }
+      isDragging = false;
+    });
+
+    row.appendChild(delBg);
+    row.appendChild(item);
+    listEl.appendChild(row);
   });
-  setAvail(String(w.Available).toLowerCase()==='sold'?'Sold':'Yes');
+
+  // Close swipe on scroll
+  document.getElementById('invList').innerHTML = '';
+  document.getElementById('invList').appendChild(listEl);
+
+  document.getElementById('viewInv').addEventListener('scroll', () => {
+    if (activeSwipeRow) {
+      activeSwipeRow.classList.remove('swiped');
+      activeSwipeRow.style.transform = '';
+      activeSwipeRow = null;
+    }
+  }, { passive: true });
+}
+
+// ─── EDIT ─────────────────────────────────────────────────
+function startEdit(w) {
+  editId = w.ID || w.Id || w.id || '';
+  document.getElementById('fName').value  = w.Name  || '';
+  document.getElementById('fBrand').value = w.Brand || '';
+  document.getElementById('fPrice').value = w.Price || '';
+  document.getElementById('fDesc').value  = w.Description || '';
+  document.getElementById('fCond').value  = w.Condition   || '';
+  document.getElementById('fRef').value   = w.Reference   || '';
+  document.getElementById('fYear').value  = w.Year        || '';
+  setAvail(String(w.Available).toLowerCase() === 'sold' ? 'Sold' : 'Yes');
+
   if (w.Image) {
-    upUrl=w.Image;
-    const img=document.getElementById('photoImg'); img.src=w.Image; img.style.display='block';
-    document.getElementById('photoEmpty').style.display='none';
+    upUrl = w.Image;
+    const img = document.getElementById('photoImg');
+    img.src = w.Image; img.style.display = 'block';
+    document.getElementById('photoEmpty').style.display = 'none';
     document.getElementById('photoBar').classList.add('show');
-    fileIn.style.pointerEvents='none';
+    fileIn.style.pointerEvents = 'none';
   }
-  document.getElementById('addBtn').textContent='Save Changes';
-  document.getElementById('cancelBtn').style.display='block';
+
+  document.getElementById('submitBtn').textContent = 'Save Changes';
+  document.getElementById('cancelBtn').style.display = 'block';
   switchTab('add');
-  document.querySelector('.scroll').scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('viewAdd').scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// DELETE
-let pendingDelId='';
-function askDelete(w) {
-  pendingDelId=w.ID;
-  document.getElementById('confMsg').textContent=`"${w.Brand} ${w.Name}" will be permanently removed.`;
-  document.getElementById('confOverlay').classList.add('open');
+// ─── DELETE ───────────────────────────────────────────────
+function confirmDelete(w, rowEl) {
+  // Inline confirm — change the row bg text to "Tap again to confirm"
+  const delBg = rowEl.querySelector('.sw-del-bg');
+  const originalHtml = delBg.innerHTML;
+  delBg.innerHTML = '<span style="color:#fff;font-size:12px;font-weight:600;text-align:center;padding:0 8px;line-height:1.3">Tap to<br>confirm</span>';
+  delBg.style.background = '#b91c1c';
+
+  let confirmed = false;
+  delBg.onclick = async e => {
+    e.stopPropagation();
+    if (confirmed) return;
+    confirmed = true;
+    delBg.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite"></div>';
+    try {
+      const watchId = w.ID || w.Id || w.id || '';
+      if (!watchId) throw new Error('No ID found');
+      const j = await post({ action: 'deleteWatch', id: watchId });
+      if (j.success) {
+        rowEl.style.transition = 'opacity .2s, transform .2s';
+        rowEl.style.opacity = '0';
+        rowEl.style.transform = 'translateX(-100%)';
+        setTimeout(() => {
+          rowEl.remove();
+          allWatches = allWatches.filter(x => (x.ID || x.Id || x.id) !== watchId);
+          const avCount   = allWatches.filter(x => String(x.Available).toLowerCase() !== 'sold').length;
+          const soldCount = allWatches.length - avCount;
+          const filtered  = allWatches.filter(x => {
+            const s = String(x.Available).toLowerCase() === 'sold';
+            if (invFilter === 'available' && s)  return false;
+            if (invFilter === 'sold'      && !s) return false;
+            return true;
+          });
+          document.getElementById('invCount').textContent =
+            filtered.length + ' shown · ' + avCount + ' av · ' + soldCount + ' sold';
+        }, 220);
+        toast('Deleted');
+        activeSwipeRow = null;
+      } else throw new Error(j.error || 'Delete failed');
+    } catch(e) {
+      toast('Error: ' + e.message);
+      delBg.innerHTML = originalHtml;
+      delBg.style.background = '';
+      delBg.onclick = e2 => { e2.stopPropagation(); confirmDelete(w, rowEl); };
+    }
+  };
+
+  // Reset if user swipes back
+  setTimeout(() => {
+    const item = rowEl.querySelector('.inv-item');
+    if (item && !item.classList.contains('swiped')) {
+      delBg.innerHTML = originalHtml;
+      delBg.style.background = '';
+      delBg.onclick = e => { e.stopPropagation(); confirmDelete(w, rowEl); };
+    }
+  }, 4000);
 }
-function closeConfirm() { document.getElementById('confOverlay').classList.remove('open'); pendingDelId=''; }
-document.getElementById('confDelBtn').onclick = async () => {
-  if (!pendingDelId) return; closeConfirm();
-  try {
-    const j = await (await fetch(cfg.url,{method:'POST',body:JSON.stringify({action:'deleteWatch',id:pendingDelId})})).json();
-    if (j.success) { toast('Deleted'); loadInventory(); }
-    else throw new Error(j.error);
-  } catch(e) { toast('Error: '+e.message); }
-};
 
-// HELPERS
-function showProg(pct,lbl){document.getElementById('upProg').classList.add('show');document.getElementById('progFill').style.width=pct+'%';document.getElementById('progLbl').textContent=lbl}
-function hideProg(){document.getElementById('upProg').classList.remove('show')}
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800)}
-
-// COPY SCRIPT
-function copyScript(){
-  const code=`// WATCH ROOM — Google Apps Script
-// 1. Paste into script.google.com → New Project
-// 2. Line 10: paste your Sheet ID
-// 3. Deploy → New Deployment → Web App (Execute as: Me, Access: Anyone)
-
-const SPREADSHEET_ID = '1snaZXbtx242ves56ukfsk-RahEcbB9tHIAg7aBbGpDo';
-const SHEET_NAME     = 'Inventory';
-const DRIVE_FOLDER   = 'Watch Room — Images';
-
-function doPost(e){try{const d=JSON.parse(e.postData.contents);if(d.action==='uploadImage')return respond(handleImageUpload(d));if(d.action==='addWatch')return respond(handleAddWatch(d));if(d.action==='updateWatch')return respond(handleUpdateWatch(d));if(d.action==='deleteWatch')return respond(handleDeleteWatch(d));return respond({error:'Unknown action'})}catch(err){return respond({error:err.message})}}
-function doGet(e){try{if(e.parameter.action==='getInventory')return respond(handleGetInventory());return respond({error:'Unknown action'})}catch(err){return respond({error:err.message})}}
-function handleImageUpload(d){const f=getOrCreateFolder(DRIVE_FOLDER);const b=Utilities.newBlob(Utilities.base64Decode(d.base64),d.mimeType,d.fileName);const file=f.createFile(b);file.setSharing(DriveApp.Access.ANYONE_WITH_LINK,DriveApp.Permission.VIEW);return{success:true,url:'https://lh3.googleusercontent.com/d/'+file.getId()}}
-function getOrCreateFolder(n){const it=DriveApp.getFoldersByName(n);return it.hasNext()?it.next():DriveApp.createFolder(n)}
-function handleAddWatch(d){const s=getSheet();ensureHeaders(s);const id='WR-'+Date.now();s.appendRow([id,d.Name||'',d.Brand||'',d.Price||'',d.Description||'',d.Condition||'',d.Reference||'',d.Year||'',d.Image||'',d.Available||'Yes',new Date().toISOString()]);return{success:true,id}}
-function handleUpdateWatch(d){const s=getSheet();const r=s.getDataRange().getValues();for(let i=1;i<r.length;i++){if(String(r[i][0])===String(d.id)){const n=i+1;if(d.Name!==undefined)s.getRange(n,2).setValue(d.Name);if(d.Brand!==undefined)s.getRange(n,3).setValue(d.Brand);if(d.Price!==undefined)s.getRange(n,4).setValue(d.Price);if(d.Description!==undefined)s.getRange(n,5).setValue(d.Description);if(d.Condition!==undefined)s.getRange(n,6).setValue(d.Condition);if(d.Reference!==undefined)s.getRange(n,7).setValue(d.Reference);if(d.Year!==undefined)s.getRange(n,8).setValue(d.Year);if(d.Image)s.getRange(n,9).setValue(d.Image);if(d.Available!==undefined)s.getRange(n,10).setValue(d.Available);return{success:true}}}return{error:'Not found'}}
-function handleDeleteWatch(d){const s=getSheet();const r=s.getDataRange().getValues();for(let i=1;i<r.length;i++){if(String(r[i][0])===String(d.id)){s.deleteRow(i+1);return{success:true}}}return{error:'Not found'}}
-function handleGetInventory(){const s=getSheet();if(s.getLastRow()<2)return{watches:[]};const r=s.getDataRange().getValues();const h=r[0];return{watches:r.slice(1).map(row=>{const o={};h.forEach((k,i)=>o[k]=row[i]);return o})}}
-function getSheet(){const ss=SpreadsheetApp.openById(SPREADSHEET_ID);let sh=ss.getSheetByName(SHEET_NAME);if(!sh){sh=ss.insertSheet(SHEET_NAME);ensureHeaders(sh)}return sh}
-function ensureHeaders(s){if(s.getLastRow()===0){s.appendRow(['ID','Name','Brand','Price','Description','Condition','Reference','Year','Image','Available','Added']);s.getRange(1,1,1,11).setFontWeight('bold').setBackground('#111').setFontColor('#c9a84c');s.setFrozenRows(1)}}
-function respond(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON)}`;
-  navigator.clipboard.writeText(code).then(()=>toast('Script copied!')).catch(()=>{const t=document.createElement('textarea');t.value=code;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);toast('Script copied!')});
+// ─── HELPERS ──────────────────────────────────────────────
+async function post(data) {
+  const r = await fetch(scriptUrl, { method: 'POST', body: JSON.stringify(data) });
+  return r.json();
 }
+
+function prog(pct, lbl) {
+  document.getElementById('progWrap').classList.add('show');
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLbl').textContent = lbl;
+}
+function hideProgFn() { document.getElementById('progWrap').classList.remove('show'); }
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+// Close swipe row when tapping elsewhere
+document.addEventListener('touchstart', e => {
+  if (activeSwipeRow && !activeSwipeRow.closest('.sw-row')?.contains(e.target)) {
+    activeSwipeRow.classList.remove('swiped');
+    activeSwipeRow.style.transform = '';
+    activeSwipeRow = null;
+  }
+}, { passive: true });
 </script>
 </body>
 </html>
